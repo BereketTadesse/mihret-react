@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --color-tertiary-fixed-dim: 132 160 255;
+    --color-surface-tint: 201 75 28;
+    --color-surface-dim: 247 242 238;
+    --color-on-primary-container: 255 255 255;
+    --color-on-primary-fixed: 36 26 0;
+    --color-background: 252 248 244;
+    --color-on-tertiary-fixed: 0 23 75;
+    --color-tertiary: 48 85 164;
+    --color-surface-bright: 255 255 255;
+    --color-surface-container-highest: 233 225 217;
+    --color-secondary-fixed: 247 225 166;
+    --color-outline: 120 106 88;
+    --color-secondary-fixed-dim: 218 197 141;
+    --color-on-tertiary: 255 255 255;
+    --color-error-container: 147 0 10;
+    --color-error: 186 26 26;
+    --color-on-secondary-fixed: 36 26 0;
+    --color-primary-fixed-dim: 225 95 48;
+    --color-on-primary: 255 255 255;
+    --color-secondary: 124 92 18;
+    --color-tertiary-fixed: 219 225 255;
+    --color-on-surface: 28 27 25;
+    --color-surface: 248 243 239;
+    --color-surface-variant: 233 225 217;
+    --color-on-secondary-fixed-variant: 84 69 25;
+    --color-primary: 201 75 28;
+    --color-tertiary-container: 151 176 255;
+    --color-on-surface-variant: 94 84 72;
+    --color-surface-container-low: 245 239 234;
+    --color-on-tertiary-fixed-variant: 39 67 138;
+    --color-on-secondary-container: 255 241 198;
+    --color-inverse-primary: 240 120 80;
+    --color-surface-container-lowest: 255 255 255;
+    --color-outline-variant: 198 187 176;
+    --color-secondary-container: 119 93 31;
+    --color-on-tertiary-container: 37 65 136;
+    --color-inverse-surface: 232 225 220;
+    --color-primary-fixed: 240 120 80;
+    --color-on-background: 28 27 25;
+    --color-surface-container-high: 239 232 226;
+    --color-surface-container: 242 236 231;
+    --color-on-error-container: 255 218 214;
+    --color-on-error: 255 255 255;
+    --color-on-secondary: 255 255 255;
+    --color-primary-container: 163 59 19;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --color-tertiary-fixed-dim: 180 197 255;
+    --color-surface-tint: 201 75 28;
+    --color-surface-dim: 19 19 19;
+    --color-on-primary-container: 85 67 0;
+    --color-on-primary-fixed: 36 26 0;
+    --color-background: 19 19 19;
+    --color-on-tertiary-fixed: 0 23 75;
+    --color-tertiary: 191 205 255;
+    --color-surface-bright: 57 57 57;
+    --color-surface-container-highest: 53 53 53;
+    --color-secondary-fixed: 247 225 166;
+    --color-outline: 153 144 124;
+    --color-secondary-fixed-dim: 218 197 141;
+    --color-on-tertiary: 8 43 114;
+    --color-error-container: 147 0 10;
+    --color-error: 255 180 171;
+    --color-on-secondary-fixed: 36 26 0;
+    --color-primary-fixed-dim: 225 95 48;
+    --color-on-primary: 255 255 255;
+    --color-secondary: 218 197 141;
+    --color-tertiary-fixed: 219 225 255;
+    --color-on-surface: 226 226 226;
+    --color-surface: 19 19 19;
+    --color-surface-variant: 53 53 53;
+    --color-on-secondary-fixed-variant: 84 69 25;
+    --color-primary: 201 75 28;
+    --color-tertiary-container: 151 176 255;
+    --color-on-surface-variant: 208 197 175;
+    --color-surface-container-low: 27 27 27;
+    --color-on-tertiary-fixed-variant: 39 67 138;
+    --color-on-secondary-container: 200 179 125;
+    --color-inverse-primary: 122 45 15;
+    --color-surface-container-lowest: 14 14 14;
+    --color-outline-variant: 77 70 53;
+    --color-secondary-container: 84 69 25;
+    --color-on-tertiary-container: 37 65 136;
+    --color-inverse-surface: 226 226 226;
+    --color-primary-fixed: 240 120 80;
+    --color-on-background: 226 226 226;
+    --color-surface-container-high: 42 42 42;
+    --color-surface-container: 31 31 31;
+    --color-on-error-container: 255 218 214;
+    --color-on-error: 105 0 5;
+    --color-on-secondary: 60 47 5;
+    --color-primary-container: 163 59 19;
+  }
+
+  html {
+    @apply bg-background;
+  }
+
+  body {
+    @apply bg-background text-on-surface transition-colors duration-300;
+  }
+}
+
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 3s infinite;
+}
+
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 200%;
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.glass-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
