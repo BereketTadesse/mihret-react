@@ -39,36 +39,22 @@ export default function Home() {
     tiltXRaw.set(0);
     tiltYRaw.set(0);
   };
-  const getClientInitials = (name: string) =>
-    name
-      .split(/[\s`]+/)
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((part) => part[0]?.toUpperCase() ?? '')
-      .join('');
-
   const clients = [
-    { name: 'Abronet Saccos', logo: '/logo/Abronet-saccos.png' },
-    { name: 'Abronet Business and Consultancy', logo: '/logo/abronet.png' },
-    { name: 'Adabay Food Consulting PLC', logo: '/logo/adabai.png' },
-    { name: 'Amy Beauty Salon', logo: '/logo/ami-laxury-salon.png' },
-    { name: 'Alex Abraham Tube' },
-    { name: 'Canary Tube', logo: '/logo/canary-tube.png' },
-    { name: 'Ethiopian Food Engineering Association', logo: '/logo/ethiopia food engineer associate.png' },
-    { name: 'Feril`s Mad World', logo: '/logo/ferils-mad-world.png' },
-    { name: 'Gojo Casting', logo: '/logo/gojo-casting.png' },
-    { name: 'Hope Spina' },
-    { name: 'Jeilu Media and Communication' },
-    { name: 'Kanfier Trading PLC', logo: '/logo/kanfier-trading.png' },
-    { name: 'Kedamawi Modeling School', logo: '/logo/kedamawi-modeling-school.png' },
-    { name: 'Lumeya Multimedia' },
-    { name: 'Meseret Humanitarian' },
-    { name: 'Promise Creative Studio' },
-    { name: 'Satela Charitable Organization', logo: '/logo/saltela-charitable.png' },
-    { name: 'Satela Show (Asham Television)', logo: '/logo/op.png' },
-    { name: 'Saved To Save Charitable Organization', logo: '/logo/saved-to-save.png' },
-    { name: 'TDS Multimedia', logo: '/logo/TDS.png' },
-    { name: 'Tsedey Radio', logo: '/logo/tsedey-radio.png' },
+    { name: 'Abronet Business and Consultancy', logo: '/logo/Abronet Business and Consultancy.png' },
+    { name: 'Abronet Saccos', logo: '/logo/Abronet Saccos.png' },
+    { name: 'Adabay Food Consulting PLC', logo: '/logo/Adabay Food Consulting PLC.png' },
+    { name: 'Amy Beauty Salon', logo: '/logo/Amy Beauty Salon.png' },
+    { name: 'Canary Tube', logo: '/logo/Canary Tube.png' },
+    { name: 'Ethiopian Food Engineering Association', logo: '/logo/Ethiopian Food Engineering Association.png' },
+    { name: 'Feril`s Mad World', logo: '/logo/Feril`s Mad World.png' },
+    { name: 'Gojo Casting', logo: '/logo/Gojo Casting.png' },
+    { name: 'Kanfier Trading PLC', logo: '/logo/Kanfier Trading PLC.png' },
+    { name: 'Kedamawi Modeling School', logo: '/logo/Kedamawi Modeling School.png' },
+    { name: 'Promise Creative Studio', logo: '/logo/Promise Creative Studio.png' },
+    { name: 'Satela Charitable Organization', logo: '/logo/Satela Charitable Organization.png' },
+    { name: 'Saved To Save Charitable Organization', logo: '/logo/Saved To Save Charitable Organization.png' },
+    { name: 'TDS Multimedia', logo: '/logo/TDS Multimedia.png' },
+    { name: 'Tsedey Radio', logo: '/logo/Tsedey Radio.png' },
   ];
   const showreelVideo = '/showreel.mp4';
 
@@ -112,15 +98,6 @@ export default function Home() {
         </div>
 
         <div className="relative z-20 px-8 md:px-24 max-w-5xl">
-          {/* Eyebrow label */}
-          <BlurText
-            text="EST. 2012 — ADDIS ABABA"
-            delay={50}
-            stepDuration={0.45}
-            animateBy="letters"
-            direction="top"
-            className="label-md tracking-[0.3em] text-primary uppercase font-bold text-xs block mb-5 md:mb-6"
-          />
 
           {/* Hero heading — blur reveal */}
           <div style={{ overflow: 'hidden' }} className="mb-5 md:mb-6">
@@ -395,17 +372,11 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="relative z-10 h-full flex flex-col items-center justify-center gap-4 p-5 md:p-6">
                       <div className="h-16 md:h-20 w-full flex items-center justify-center">
-                        {client.logo ? (
-                          <img
-                            src={client.logo}
-                            alt={`${client.name} logo`}
-                            className="max-h-full max-w-full object-contain transition-all duration-300"
-                          />
-                        ) : (
-                          <div className="flex h-16 w-16 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-sm font-black uppercase tracking-[0.2em] text-primary shadow-[0_0_30px_rgba(201,75,28,0.12)]">
-                            {getClientInitials(client.name)}
-                          </div>
-                        )}
+                        <img
+                          src={client.logo}
+                          alt={`${client.name} logo`}
+                          className="max-h-full max-w-full object-contain transition-all duration-300"
+                        />
                       </div>
                       <div className="w-full text-center">
                         <div className="mx-auto mb-3 h-px w-10 bg-outline-variant/40 group-hover:w-16 group-hover:bg-primary transition-all duration-300" />
