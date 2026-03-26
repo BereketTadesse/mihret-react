@@ -1,25 +1,73 @@
-import { useState } from 'react';
+import { useState, type PointerEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
+import RevealOnScroll from '../components/animations/RevealOnScroll';
+import StaggerChildren from '../components/animations/StaggerChildren';
+import BlurText from '../components/animations/BlurText';
+import { itemVariants, itemVariantsReduced } from '../components/animations/index';
 
 export default function Home() {
   const navigate = useNavigate();
   const [isShowreelOpen, setIsShowreelOpen] = useState(false);
+  const prefersReduced = useReducedMotion();
+  const iv = prefersReduced ? itemVariantsReduced : itemVariants;
+  const glareX = useMotionValue(50);
+  const glareY = useMotionValue(50);
+  const tiltXRaw = useMotionValue(0);
+  const tiltYRaw = useMotionValue(0);
+  const tiltX = useSpring(tiltXRaw, { stiffness: 240, damping: 26, mass: 0.8 });
+  const tiltY = useSpring(tiltYRaw, { stiffness: 240, damping: 26, mass: 0.8 });
+  const glareLayer = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(201,75,28,0.34), rgba(201,75,28,0.18) 16%, rgba(201,75,28,0.08) 30%, transparent 62%)`;
+  const sheenLayer = useMotionTemplate`linear-gradient(135deg, transparent 18%, rgba(255,255,255,0.08) 48%, transparent 74%)`;
+
+  const updateGlare = (event: PointerEvent<HTMLDivElement>) => {
+    if (prefersReduced) return;
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width;
+    const y = (event.clientY - bounds.top) / bounds.height;
+
+    glareX.set(x * 100);
+    glareY.set(y * 100);
+    tiltXRaw.set((0.5 - y) * 8);
+    tiltYRaw.set((x - 0.5) * 10);
+  };
+
+  const resetGlare = () => {
+    glareX.set(50);
+    glareY.set(50);
+    tiltXRaw.set(0);
+    tiltYRaw.set(0);
+  };
+  const getClientInitials = (name: string) =>
+    name
+      .split(/[\s`]+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() ?? '')
+      .join('');
+
   const clients = [
     { name: 'Abronet Saccos', logo: '/logo/Abronet-saccos.png' },
-    { name: 'Abronet', logo: '/logo/abronet.png' },
-    { name: 'Absimadokos', logo: '/logo/absimadokos.png' },
-    { name: 'Adabai', logo: '/logo/adabai.png' },
-    { name: 'Ami Luxury Salon', logo: '/logo/ami-laxury-salon.png' },
+    { name: 'Abronet Business and Consultancy', logo: '/logo/abronet.png' },
+    { name: 'Adabay Food Consulting PLC', logo: '/logo/adabai.png' },
+    { name: 'Amy Beauty Salon', logo: '/logo/ami-laxury-salon.png' },
+    { name: 'Alex Abraham Tube' },
     { name: 'Canary Tube', logo: '/logo/canary-tube.png' },
-    { name: 'Ethiopia Food Engineer Associate', logo: '/logo/ethiopia food engineer associate.png' },
-    { name: 'Ferils Mad World', logo: '/logo/ferils-mad-world.png' },
+    { name: 'Ethiopian Food Engineering Association', logo: '/logo/ethiopia food engineer associate.png' },
+    { name: 'Feril`s Mad World', logo: '/logo/ferils-mad-world.png' },
     { name: 'Gojo Casting', logo: '/logo/gojo-casting.png' },
-    { name: 'Kanfier Trading', logo: '/logo/kanfier-trading.png' },
+    { name: 'Hope Spina' },
+    { name: 'Jeilu Media and Communication' },
+    { name: 'Kanfier Trading PLC', logo: '/logo/kanfier-trading.png' },
     { name: 'Kedamawi Modeling School', logo: '/logo/kedamawi-modeling-school.png' },
-    { name: 'OP', logo: '/logo/op.png' },
-    { name: 'Saltela Charitable', logo: '/logo/saltela-charitable.png' },
-    { name: 'Saved To Save', logo: '/logo/saved-to-save.png' },
-    { name: 'TDS', logo: '/logo/TDS.png' },
+    { name: 'Lumeya Multimedia' },
+    { name: 'Meseret Humanitarian' },
+    { name: 'Promise Creative Studio' },
+    { name: 'Satela Charitable Organization', logo: '/logo/saltela-charitable.png' },
+    { name: 'Satela Show (Asham Television)', logo: '/logo/op.png' },
+    { name: 'Saved To Save Charitable Organization', logo: '/logo/saved-to-save.png' },
+    { name: 'TDS Multimedia', logo: '/logo/TDS.png' },
     { name: 'Tsedey Radio', logo: '/logo/tsedey-radio.png' },
   ];
   const showreelVideo = '/showreel.mp4';
@@ -51,7 +99,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Hero Section */}
+      {/* ── Hero Section ─────────────────────────────────────────────── */}
       <main className="relative min-h-screen w-full flex items-center justify-start overflow-hidden pt-28 pb-24 md:pt-32 md:pb-28">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent z-10"></div>
@@ -62,82 +110,199 @@ export default function Home() {
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1MV9_BDpmlUDBBUrqh-nrIhSLvn4F_FejVP0cwj7KIe0bqKr24vB9w0wmGnGvtjcXt1_saY7FRsWLLgOuRuWa_lyNR_SuzfRRcPzxmm5l_G6QyPfZDf-pV09ll3BbAXq2QxDiaEqOHU2AlhrGwAdg8KYXxC7ixnv0pMbw3gKK7LJ8euMRgLlF1XVuy4euuPkxmJlQn2ps-WzL9iL6Ck8kXpqhxvPQNuFpN2Delo77OAs4vOkLeaB8k2_4UuozIEF1hF39C1sxvQe9"
           />
         </div>
+
         <div className="relative z-20 px-8 md:px-24 max-w-5xl">
-          <div className="space-y-2 mb-5 md:mb-6">
-            <span className="label-md tracking-[0.3em] text-primary uppercase font-bold text-xs">EST. 2012 — ADDIS ABABA</span>
-            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter leading-[0.84] font-headline uppercase">
-              TOLD IN<br />
-              <span className="text-primary">GOLDEN</span> LIGHT
+          {/* Eyebrow label */}
+          <BlurText
+            text="EST. 2012 — ADDIS ABABA"
+            delay={50}
+            stepDuration={0.45}
+            animateBy="letters"
+            direction="top"
+            className="label-md tracking-[0.3em] text-primary uppercase font-bold text-xs block mb-5 md:mb-6"
+          />
+
+          {/* Hero heading — blur reveal */}
+          <div style={{ overflow: 'hidden' }} className="mb-5 md:mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-[4.25rem] lg:text-[5.5rem] xl:text-[6rem] font-black tracking-tighter leading-[0.88] font-headline uppercase flex flex-col gap-1 sm:gap-2 items-start">
+              <BlurText text="MIHRET" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
+              <span className="text-primary">
+                <BlurText text="MULTIMEDIA" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
+              </span>
+              <BlurText text="AND" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
+              <BlurText text="FILM PRODUCTION" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
             </h2>
           </div>
-          <p className="text-base sm:text-lg md:text-xl text-on-surface/80 max-w-xl mb-8 md:mb-10 leading-relaxed font-body">
-            Mihret Multimedia &amp; Film Production is an independent studio crafting visually arrestive narratives for the global stage.
-          </p>
-          <div className="flex flex-wrap gap-4 md:gap-6">
-            <button
+
+          {/* Paragraph */}
+          <BlurText
+            text="A premier multimedia and film production company established to deliver comprehensive services. Founded by visionary women and dedicated to excellence."
+            delay={60}
+            stepDuration={0.45}
+            animateBy="words"
+            direction="bottom"
+            className="text-base sm:text-lg md:text-xl text-on-surface/80 max-w-xl mb-8 md:mb-10 leading-relaxed font-body"
+          />
+
+          {/* CTA Buttons — staggered */}
+          <motion.div
+            className="flex flex-wrap gap-4 md:gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            <motion.button
               type="button"
-              className="shimmer-btn group relative px-8 md:px-10 py-4 md:py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold tracking-widest uppercase text-sm flex items-center gap-3 transition-transform active:scale-95"
+              className="shimmer-btn group relative px-8 md:px-10 py-4 md:py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold tracking-widest uppercase text-sm flex items-center gap-3"
               onClick={() => setIsShowreelOpen(true)}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >
               WATCH SHOWREEL
               <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-            </button>
-            <button
-              className="px-8 md:px-10 py-4 md:py-5 border border-outline-variant/30 text-on-surface font-bold tracking-widest uppercase text-sm hover:bg-white/5 transition-colors active:scale-95"
+            </motion.button>
+            <motion.button
+              className="px-8 md:px-10 py-4 md:py-5 border border-outline-variant/30 text-on-surface font-bold tracking-widest uppercase text-sm hover:bg-white/5 transition-colors"
               onClick={() => navigate('/portfolio')}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >
               VIEW PORTFOLIO
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </div>
-        <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 md:gap-4 opacity-50">
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 md:gap-4 opacity-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.5 }}
+          transition={{ delay: 1.1, duration: 0.6 }}
+        >
           <span className="label-md tracking-widest uppercase text-xs">Scroll</span>
           <div className="w-[1px] h-16 bg-gradient-to-b from-primary to-transparent"></div>
-        </div>
+        </motion.div>
       </main>
 
-      {/* Showreel Section */}
-      <section className="bg-surface px-8 py-12 md:px-24 md:py-16 font-body">
-        <div className="mx-auto max-w-7xl">
-          <button
-            type="button"
-            className="group relative block w-full overflow-hidden rounded-[2rem] border border-outline-variant/20 bg-[#16130f] text-left shadow-[0_30px_90px_rgba(0,0,0,0.28)]"
-            onClick={() => setIsShowreelOpen(true)}
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_30%),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0.68))]" />
-            <div className="absolute inset-y-0 left-0 w-[18%] bg-gradient-to-r from-black/80 via-black/45 to-transparent" />
-            <div className="absolute inset-y-0 right-0 w-[18%] bg-gradient-to-l from-black/80 via-black/45 to-transparent" />
-            <div className="absolute inset-y-[8%] left-[7%] w-[12%] rounded-t-[999px] border border-white/8 bg-gradient-to-b from-white/10 via-black/35 to-black/55 shadow-[inset_0_0_35px_rgba(255,255,255,0.05)]" />
-            <div className="absolute inset-y-[8%] right-[7%] w-[12%] rounded-t-[999px] border border-white/8 bg-gradient-to-b from-white/10 via-black/35 to-black/55 shadow-[inset_0_0_35px_rgba(255,255,255,0.05)]" />
-            <img
-              className="h-[380px] w-full object-cover opacity-75 transition-transform duration-700 group-hover:scale-105 md:h-[520px]"
-              alt="Showreel preview backdrop"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1MV9_BDpmlUDBBUrqh-nrIhSLvn4F_FejVP0cwj7KIe0bqKr24vB9w0wmGnGvtjcXt1_saY7FRsWLLgOuRuWa_lyNR_SuzfRRcPzxmm5l_G6QyPfZDf-pV09ll3BbAXq2QxDiaEqOHU2AlhrGwAdg8KYXxC7ixnv0pMbw3gKK7LJ8euMRgLlF1XVuy4euuPkxmJlQn2ps-WzL9iL6Ck8kXpqhxvPQNuFpN2Delo77OAs4vOkLeaB8k2_4UuozIEF1hF39C1sxvQe9"
-            />
+      {/* ── Who We Are Section ───────────────────────────────────────── */}
+      <section className="bg-surface px-6 py-20 md:px-24 md:py-28 font-body relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(201,75,28,0.12),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0))]" />
+        <div className="absolute top-0 left-1/2 h-px w-[min(720px,82vw)] -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
 
-            <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-              <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#f3c856]/40 bg-[#f3c856]/12 text-[#f3c856] shadow-[0_0_35px_rgba(243,200,86,0.16)] transition-transform duration-300 group-hover:scale-110">
-                <span className="material-symbols-outlined text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                  play_arrow
-                </span>
-              </div>
-              <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-black/25 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.32em] text-primary">
-                Available Now
-              </span>
-              <h2 className="max-w-4xl text-4xl font-black uppercase tracking-[-0.06em] text-on-surface drop-shadow-[0_6px_20px_rgba(0,0,0,0.55)] sm:text-5xl md:text-7xl">
-                THE SHOWREEL
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base">
-                A quick look into Mihret Multimedia&apos;s cinematic direction, production energy, and visual storytelling.
-              </p>
+        <RevealOnScroll className="relative z-10 mx-auto max-w-4xl text-center">
+          <motion.div
+            className="group relative overflow-hidden rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.015))] px-6 py-12 shadow-[0_24px_80px_rgba(0,0,0,0.2)] backdrop-blur-sm transition-colors sm:px-10 md:px-16 md:py-16"
+            initial={{ opacity: 0, y: 72, scale: 0.94, filter: 'blur(14px)' }}
+            whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ scale: 1.01, y: -4 }}
+            whileTap={{ scale: 0.995 }}
+            onPointerMove={updateGlare}
+            onPointerLeave={resetGlare}
+            onPointerCancel={resetGlare}
+            style={{
+              rotateX: tiltX,
+              rotateY: tiltY,
+              transformStyle: 'preserve-3d',
+            }}
+          >
+            <motion.div
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-active:opacity-100"
+              style={{ background: glareLayer }}
+            />
+            <motion.div
+              className="pointer-events-none absolute inset-0 opacity-0 mix-blend-screen transition-opacity duration-500 group-hover:opacity-100 group-active:opacity-100"
+              style={{ background: sheenLayer }}
+            />
+            <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-active:opacity-100">
+              <div className="absolute left-[-8%] top-[-12%] h-40 w-40 rounded-full bg-primary/20 blur-3xl md:h-56 md:w-56" />
+              <div className="absolute bottom-[-18%] right-[-8%] h-44 w-44 rounded-full bg-primary/15 blur-3xl md:h-64 md:w-64" />
+              <div className="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
             </div>
-          </button>
-        </div>
+
+            <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-primary/0 transition-colors duration-500 group-hover:border-primary/20 group-active:border-primary/20" />
+            <h3 className="font-headline text-4xl font-black uppercase tracking-[-0.05em] text-primary sm:text-5xl md:text-6xl">
+              WHO WE ARE
+            </h3>
+
+            <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.38em] text-primary/75 sm:text-[11px]">
+              MIHRET MULTIMEDIA AND FILM PRODUCTION
+            </p>
+
+            <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+
+            <p className="mx-auto mt-8 max-w-3xl text-sm leading-7 text-on-surface/78 sm:text-[15px] sm:leading-8 md:text-base">
+              A premier multimedia and film production company, licensed in Ethiopia, Addis Ababa, established to deliver comprehensive media, film, event, communication, and digital marketing services.
+            </p>
+
+            <p className="mx-auto mt-1 max-w-3xl text-sm leading-7 text-on-surface/78 sm:text-[15px] sm:leading-8 md:text-base">
+              Founded by visionary women, our company prides itself on diversity and innovation, with a team of talented professionals dedicated to excellence in every project we undertake.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+                Est. 2012
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-on-surface/75">
+                Addis Ababa, Ethiopia
+              </span>
+            </div>
+          </motion.div>
+        </RevealOnScroll>
       </section>
 
-      {/* Projects Section */}
+      {/* ── Showreel Section ─────────────────────────────────────────── */}
+      <section className="bg-surface px-8 py-12 md:px-24 md:py-16 font-body">
+        <RevealOnScroll scale={0.97} duration={0.65}>
+          <div className="mx-auto max-w-7xl">
+            <motion.button
+              type="button"
+              className="group relative block w-full overflow-hidden rounded-[2rem] border border-outline-variant/20 bg-[#16130f] text-left shadow-[0_30px_90px_rgba(0,0,0,0.28)]"
+              onClick={() => setIsShowreelOpen(true)}
+              whileHover={{ scale: 1.008 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_30%),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0.68))]" />
+              <div className="absolute inset-y-0 left-0 w-[18%] bg-gradient-to-r from-black/80 via-black/45 to-transparent" />
+              <div className="absolute inset-y-0 right-0 w-[18%] bg-gradient-to-l from-black/80 via-black/45 to-transparent" />
+              <div className="absolute inset-y-[8%] left-[7%] w-[12%] rounded-t-[999px] border border-white/8 bg-gradient-to-b from-white/10 via-black/35 to-black/55 shadow-[inset_0_0_35px_rgba(255,255,255,0.05)]" />
+              <div className="absolute inset-y-[8%] right-[7%] w-[12%] rounded-t-[999px] border border-white/8 bg-gradient-to-b from-white/10 via-black/35 to-black/55 shadow-[inset_0_0_35px_rgba(255,255,255,0.05)]" />
+              <img
+                className="h-[380px] w-full object-cover opacity-75 transition-transform duration-700 group-hover:scale-105 md:h-[520px]"
+                alt="Showreel preview backdrop"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1MV9_BDpmlUDBBUrqh-nrIhSLvn4F_FejVP0cwj7KIe0bqKr24vB9w0wmGnGvtjcXt1_saY7FRsWLLgOuRuWa_lyNR_SuzfRRcPzxmm5l_G6QyPfZDf-pV09ll3BbAXq2QxDiaEqOHU2AlhrGwAdg8KYXxC7ixnv0pMbw3gKK7LJ8euMRgLlF1XVuy4euuPkxmJlQn2ps-WzL9iL6Ck8kXpqhxvPQNuFpN2Delo77OAs4vOkLeaB8k2_4UuozIEF1hF39C1sxvQe9"
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+                <motion.div
+                  className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#f3c856]/40 bg-[#f3c856]/12 text-[#f3c856] shadow-[0_0_35px_rgba(243,200,86,0.16)]"
+                  whileHover={{ scale: 1.15 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+                >
+                  <span className="material-symbols-outlined text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    play_arrow
+                  </span>
+                </motion.div>
+                <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-black/25 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.32em] text-primary">
+                  Available Now
+                </span>
+                <h2 className="max-w-4xl text-4xl font-black uppercase tracking-[-0.06em] text-on-surface drop-shadow-[0_6px_20px_rgba(0,0,0,0.55)] sm:text-5xl md:text-7xl">
+                  THE SHOWREEL
+                </h2>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base">
+                  A quick look into Mihret Multimedia&apos;s cinematic direction, production energy, and visual storytelling.
+                </p>
+              </div>
+            </motion.button>
+          </div>
+        </RevealOnScroll>
+      </section>
+
+      {/* ── Projects Section ─────────────────────────────────────────── */}
       <section className="py-32 px-8 md:px-24 bg-surface-container-lowest relative font-body">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+        <RevealOnScroll className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="space-y-4">
             <span className="label-md tracking-widest text-primary uppercase font-bold text-xs">LATEST PRODUCTIONS</span>
             <h3 className="text-4xl md:text-6xl font-black tracking-tighter font-headline uppercase">FEATURED WORKS</h3>
@@ -145,11 +310,17 @@ export default function Home() {
           <p className="text-on-surface-variant max-w-sm text-right font-medium">
             Our portfolio spans commercial high-fashion, narrative features, and documentary storytelling.
           </p>
-        </div>
+        </RevealOnScroll>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[900px]">
+        <StaggerChildren
+          staggerDelay={0.1}
+          className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[900px]"
+        >
           {/* Main Card */}
-          <div className="md:col-span-8 group relative overflow-hidden bg-surface-container-low rounded-lg shadow-2xl cursor-pointer">
+          <motion.div
+            variants={iv}
+            className="md:col-span-8 group relative overflow-hidden bg-surface-container-low rounded-lg shadow-2xl cursor-pointer"
+          >
             <img
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               alt="Atmospheric still from a dramatic narrative film"
@@ -163,10 +334,10 @@ export default function Home() {
               </div>
               <span className="material-symbols-outlined text-4xl text-primary opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-300">arrow_forward</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Side Cards */}
-          <div className="md:col-span-4 flex flex-col gap-6">
+          <motion.div variants={iv} className="md:col-span-4 flex flex-col gap-6">
             <div className="flex-1 group relative overflow-hidden bg-surface-container-low rounded-lg shadow-xl cursor-pointer">
               <img
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -191,15 +362,15 @@ export default function Home() {
                 <h4 className="text-xl font-black font-headline tracking-tight uppercase">URBAN RHYTHMS</h4>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </StaggerChildren>
       </section>
 
-      {/* ── OUR CLIENTS ─────────────────────────────────────────── */}
+      {/* ── Clients Section ──────────────────────────────────────────── */}
       <section className="py-24 px-8 md:px-24 bg-surface-container-lowest border-y border-outline-variant/15 font-body relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(201,75,28,0.10),transparent_28%)]" />
         <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="mb-14 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <RevealOnScroll className="mb-14 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="space-y-4">
               <span className="label-md tracking-widest text-primary uppercase font-bold text-xs">Trusted By</span>
               <h3 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter font-headline uppercase">
@@ -207,14 +378,13 @@ export default function Home() {
               </h3>
             </div>
             <p className="text-on-surface-variant max-w-md text-sm md:text-base leading-relaxed">
-              Sixteen brands, studios, and organisations from the public logo archive presented as a clean client wall instead of placeholder names.
+              A curated wall of brands, studios, and organisations with each company name clearly shown beneath its mark.
             </p>
-          </div>
+          </RevealOnScroll>
 
           <div className="relative overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-14 md:w-24 bg-gradient-to-r from-surface-container-lowest to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-14 md:w-24 bg-gradient-to-l from-surface-container-lowest to-transparent z-10 pointer-events-none" />
-
             <div className="flex overflow-hidden">
               <div className="animate-marquee flex gap-4 md:gap-5 shrink-0 py-2">
                 {[...clients, ...clients].map((client, index) => (
@@ -225,11 +395,17 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="relative z-10 h-full flex flex-col items-center justify-center gap-4 p-5 md:p-6">
                       <div className="h-16 md:h-20 w-full flex items-center justify-center">
-                        <img
-                          src={client.logo}
-                          alt={`${client.name} logo`}
-                          className="max-h-full max-w-full object-contain transition-all duration-300"
-                        />
+                        {client.logo ? (
+                          <img
+                            src={client.logo}
+                            alt={`${client.name} logo`}
+                            className="max-h-full max-w-full object-contain transition-all duration-300"
+                          />
+                        ) : (
+                          <div className="flex h-16 w-16 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-sm font-black uppercase tracking-[0.2em] text-primary shadow-[0_0_30px_rgba(201,75,28,0.12)]">
+                            {getClientInitials(client.name)}
+                          </div>
+                        )}
                       </div>
                       <div className="w-full text-center">
                         <div className="mx-auto mb-3 h-px w-10 bg-outline-variant/40 group-hover:w-16 group-hover:bg-primary transition-all duration-300" />
@@ -246,45 +422,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* ── Services Section ─────────────────────────────────────────── */}
       <section className="py-32 px-8 md:px-24 bg-surface font-body overflow-x-hidden">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
           <div className="lg:w-1/2 relative">
             <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 blur-[100px]"></div>
-            <h3 className="text-5xl md:text-7xl font-black tracking-tighter font-headline uppercase leading-none mb-12">
-              CRAFTING THE <br /><span className="text-primary italic">VISION</span>
-            </h3>
-            <div className="space-y-12">
-              <div className="flex gap-8 group">
-                <div className="flex-shrink-0 w-16 h-16 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors duration-500">
-                  <span className="material-symbols-outlined text-3xl">theaters</span>
-                </div>
-                <div className="space-y-2">
-                  <h5 className="text-xl font-bold font-headline uppercase tracking-tight">Post-Production</h5>
-                  <p className="text-on-surface-variant leading-relaxed">High-end color grading, visual effects, and sound design tailored for cinematic delivery.</p>
-                </div>
-              </div>
-              <div className="flex gap-8 group">
-                <div className="flex-shrink-0 w-16 h-16 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors duration-500">
-                  <span className="material-symbols-outlined text-3xl">camera_roll</span>
-                </div>
-                <div className="space-y-2">
-                  <h5 className="text-xl font-bold font-headline uppercase tracking-tight">Cinematography</h5>
-                  <p className="text-on-surface-variant leading-relaxed">World-class lighting and camera work using industry-leading 8K equipment.</p>
-                </div>
-              </div>
-              <div className="flex gap-8 group">
-                <div className="flex-shrink-0 w-16 h-16 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors duration-500">
-                  <span className="material-symbols-outlined text-3xl">groups</span>
-                </div>
-                <div className="space-y-2">
-                  <h5 className="text-xl font-bold font-headline uppercase tracking-tight">Direction</h5>
-                  <p className="text-on-surface-variant leading-relaxed">Visionary leadership that transforms scripts into visceral on-screen experiences.</p>
-                </div>
-              </div>
+            <div style={{ overflow: 'hidden' }} className="mb-12">
+              <motion.h3
+                className="text-5xl md:text-7xl font-black tracking-tighter font-headline uppercase leading-none"
+                initial={{ y: '105%', opacity: 0 }}
+                whileInView={{ y: '0%', opacity: 1 }}
+                viewport={{ once: true, margin: '-10% 0px' }}
+                transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+              >
+                CRAFTING THE <br /><span className="text-primary italic">VISION</span>
+              </motion.h3>
             </div>
+            <StaggerChildren staggerDelay={0.1} containerDelay={0.1}>
+              {[
+                { icon: 'theaters', title: 'Post-Production', body: 'High-end color grading, visual effects, and sound design tailored for cinematic delivery.' },
+                { icon: 'camera_roll', title: 'Cinematography', body: 'World-class lighting and camera work using industry-leading 8K equipment.' },
+                { icon: 'groups', title: 'Direction', body: 'Visionary leadership that transforms scripts into visceral on-screen experiences.' },
+              ].map((service) => (
+                <motion.div key={service.title} variants={iv} className="flex gap-8 group mb-12 last:mb-0">
+                  <div className="flex-shrink-0 w-16 h-16 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors duration-500">
+                    <span className="material-symbols-outlined text-3xl">{service.icon}</span>
+                  </div>
+                  <div className="space-y-2">
+                    <h5 className="text-xl font-bold font-headline uppercase tracking-tight">{service.title}</h5>
+                    <p className="text-on-surface-variant leading-relaxed">{service.body}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </StaggerChildren>
           </div>
-          <div className="lg:w-1/2 grid grid-cols-2 gap-4">
+
+          <RevealOnScroll delay={0.15} className="lg:w-1/2 grid grid-cols-2 gap-4">
             <img className="w-full h-full object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700" alt="Camera rig" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-AIXtVE9D-byhgfZhnSPR-IysrKDs5v7r3mS45opxwmSYL9NhLZemVSKflUwI6zq253tVRYwtNVlr0De2utumQDcH1vtX7zsG-4nalmhnJ5YYAtZBuITyVHYgBs9Hq1WsQrVHfGF4fLG4s8fbTBQHpeXlTF8F_m9Uc0xdCNbjR9vS7ex0zrBNy_Mk65tWPw1tWytuqrWYD7o_PSFjylxCtB5AV2sJr6StA_QtHURCJ-YKR5C-vwNQfKSXP6kJgqXnkoK_-37iN9GA" />
             <div className="flex flex-col gap-4 mt-12">
               <img className="w-full h-64 object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700" alt="Director" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYXdZw9uuq7G3Qw-yVjc7qUKA_FlAR44KjDP9bK-C_apqrs8XesgMHRFZAR2wY_nzTDoaUsgZ9VSCrcUfnbkABaOguDmvzYHg_ZADRLHeWjc_DJmQkc-PmjO5OO-j7WF4Tw1admUE_dTg6rjqKm4-Yzt1igHGLAVKZ5wGHUAX6aOT41D47P3lNqc6pNjZrONiQySEShjeUd7A16PFHIGU6z2PMY-4t5jMIkiYEdsE-PbGaxCQaYZEyANJcfUGA_L4e3ALJaOszZVoB" />
@@ -293,7 +466,7 @@ export default function Home() {
                 <h6 className="text-2xl font-black text-on-primary font-headline uppercase leading-tight">8K RED MONSTRO WORKFLOW</h6>
               </div>
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
       </section>
     </>

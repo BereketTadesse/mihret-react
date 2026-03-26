@@ -23,7 +23,7 @@ export default function Navbar() {
         <Link className={getLinkClass('/')} to="/">HOME</Link>
         <Link className={getLinkClass('/services')} to="/services">SERVICES</Link>
         <Link className={getLinkClass('/portfolio')} to="/portfolio">PORTFOLIO</Link>
-        <Link className={getLinkClass('/about')} to="/about">ABOUT</Link>
+        <Link className={getLinkClass('/about')} to="/about">OUR TEAM</Link>
         <Link className={getLinkClass('/contact')} to="/contact">CONTACT</Link>
       </nav>
       <div className="flex items-center gap-4">
