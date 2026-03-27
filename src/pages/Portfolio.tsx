@@ -9,6 +9,14 @@ export default function Portfolio() {
   const [filter, setFilter] = useState('all');
   const prefersReduced = useReducedMotion();
   const iv = prefersReduced ? itemVariantsReduced : itemVariants;
+  const categories = ['all', 'movies-documentaries', 'commercials', 'digital-marketing', 'events'];
+
+  const getCategoryLabel = (category: string) => {
+    if (category === 'all') return 'All Work';
+    if (category === 'movies-documentaries') return 'Movies & Documentaries';
+    if (category === 'digital-marketing') return 'Digital Marketing';
+    return category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ');
+  };
 
   const filteredStyle = (category: string) => {
     return filter === 'all' || filter === category
@@ -69,9 +77,9 @@ export default function Portfolio() {
         {/* Filter Bar */}
         <div className="sticky top-24 z-30 mb-12 py-4 -mx-6 px-6 overflow-x-auto no-scrollbar glass-blur bg-surface-variant/40 rounded-xl">
           <div className="flex items-center gap-8 min-w-max">
-            {['all', 'movies', 'documentaries', 'commercials', 'music-videos', 'events'].map((cat) => (
+            {categories.map((cat) => (
               <button key={cat} className={getBtnClass(cat)} onClick={() => setFilter(cat)}>
-                {cat === 'all' ? 'All Work' : cat.charAt(0).toUpperCase() + cat.slice(1).replace('-', ' ')}
+                {getCategoryLabel(cat)}
               </button>
             ))}
           </div>
@@ -79,7 +87,7 @@ export default function Portfolio() {
 
         {/* Bento Grid */}
         <StaggerChildren staggerDelay={0.06} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[240px]">
-          <motion.div variants={iv} style={filteredStyle('movies')}
+          <motion.div variants={iv} style={filteredStyle('movies-documentaries')}
             className="col-span-1 sm:col-span-2 row-span-2 group relative overflow-hidden bg-surface-container-low cursor-pointer"
             whileHover={{ scale: 1.012 }} transition={{ type: 'spring', stiffness: 250, damping: 24 }}>
             <img alt="The Obsidian Night" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJNu8nN5q_h8q6T0x67FAE6i_leNjM58SBqZI93tjZEA2AshvUTXQ8lJrQYla2xWcUHHTHUse_Szk6ZZPpO4EF0QekKELLEoGPW1i749-jAfBCc4EpdlLx17lMGuvxzLkrtHuyfAJpaJCNtlzQp-GpUOIuzwH3e6jSrjcihmAJEYwYRdYOx9UmYtynS3iu5LP8JUKWqwk5wIzKM6rrT_bJTFm6oNIBWeLR2kKKxLa2roWtQT5cFEwws6Xdyey7oXrOcDI0gSciZU3H" />
@@ -93,7 +101,7 @@ export default function Portfolio() {
             </div>
           </motion.div>
 
-          <motion.div variants={iv} style={filteredStyle('documentaries')}
+          <motion.div variants={iv} style={filteredStyle('movies-documentaries')}
             className="col-span-1 row-span-2 group relative overflow-hidden bg-surface-container-low cursor-pointer"
             whileHover={{ scale: 1.012 }} transition={{ type: 'spring', stiffness: 250, damping: 24 }}>
             <img alt="Documentary Series" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6OXangioR7ufhf8ELhqhIJq3pi6XkR_ltgXgowOmqjwsAnAhW-sEO6vkkhgmgljjhILEuoI6f9GZz_N-mYlcNXaVVSiTpBQ0PRnKQeZ0JeFsmOSTVbsJLiAzg2Id8JkHLaqg7C0nKYJIEyWAdPQisJGIlMX2mPeN4VXYAK8MmCCRT7BiuwAFQOz7Xslqs2qjH7eTE-uycGOKgjBXQtvw9heGEvjQgcUqaDjCffhnavfhJXO6OA5x5QISqDcDhbbD_4Ns2OKtOBww7" />
@@ -135,17 +143,17 @@ export default function Portfolio() {
             </div>
           </motion.div>
 
-          <motion.div variants={iv} style={filteredStyle('music-videos')}
-            className="col-span-1 sm:col-span-2 row-span-1 group relative overflow-hidden bg-surface-container-low cursor-pointer"
+          <motion.div variants={iv} style={filteredStyle('digital-marketing')}
+            className="col-span-1 row-span-1 group relative overflow-hidden bg-surface-container-low cursor-pointer"
             whileHover={{ scale: 1.012 }} transition={{ type: 'spring', stiffness: 250, damping: 24 }}>
-            <img alt="Music Video" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3uD9gsbketKWXI29RvSqdw0uqx3ZrjS0o52QlPiVFSzGbsd14hGviPcXHt3CO8HVeaYul5a5emMyMuxX2R-pZXZEMtKTVlbCd8LixqLdkAYxfg3x1ys75wfbMSLDyYxYTUkG7H6gOug-jD52Ouu6WorGD4xOJ2vlU39qGGUkh4VZaf1fjg8VbljSeWqhiDu3uqT4JihxY5vehQEdo7AjHiA8YEfC_lLFzaehD4qUERTYQ8xB39mHJXvriWg-34PofdGFnGypLz-TX" />
-            <div className="absolute inset-0 bg-gradient-to-r from-background to-transparent opacity-80 group-hover:opacity-50" />
+            <img alt="Digital Marketing Campaign" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANKzDg_5uwG88FloO3MqOmTsfhGoqZW3PQ1aKAu-tUgSqLB20Gvp5CqvYHbOVQNASwpC0jWuTY_leKDNwZIcuYA7qFLVln_ZE3N-3zRBw73wS-rfIUm8SWOfM7de8dMg4hFN3gvUURQwJ064KuUTld6SvCk8Y-FDezocEen-Wic6ZRpSJWmxD2lB1Eo1-QKtnhGqflPfNPGYvTTFlCPj5IZaJKw6nZSaCYNzBYzy74q6SS6Xn_hPF465PhOe0MeNhrQlmUaPgGe72Jk" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-70 group-hover:opacity-45 transition-opacity" />
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-              <span className="material-symbols-outlined text-primary text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+              <span className="material-symbols-outlined text-primary text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>trending_up</span>
             </div>
-            <div className="absolute inset-y-0 left-6 flex flex-col justify-center">
-              <span className="font-label text-primary-container text-xs mb-2 block tracking-widest">MUSIC VIDEO</span>
-              <h3 className="text-2xl font-headline font-bold uppercase tracking-tight">Electric Echoes</h3>
+            <div className="absolute bottom-4 left-4">
+              <span className="font-label text-primary-container text-[10px] mb-1 block tracking-widest">DIGITAL MARKETING</span>
+              <h3 className="text-lg font-headline font-bold uppercase tracking-tight">Growth Campaign</h3>
             </div>
           </motion.div>
 
