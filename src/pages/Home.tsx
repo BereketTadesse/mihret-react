@@ -431,13 +431,13 @@ export default function Home() {
             </div>
             <StaggerChildren staggerDelay={0.1} containerDelay={0.1}>
               {[
-                { img: '/BEHIND%20THE%20SCENE/BTS%203.png', title: 'Post-Production', body: 'High-end color grading, visual effects, and sound design tailored for cinematic delivery.' },
-                { img: '/BEHIND%20THE%20SCENE/BTS%204.png', title: 'Cinematography', body: 'World-class lighting and camera work using industry-leading 8K equipment.' },
-                { img: '/BEHIND%20THE%20SCENE/BTS%205.png', title: 'Direction', body: 'Visionary leadership that transforms scripts into visceral on-screen experiences.' },
+                { icon: 'theaters', title: 'Post-Production', body: 'High-end color grading, visual effects, and sound design tailored for cinematic delivery.' },
+                { icon: 'camera_roll', title: 'Cinematography', body: 'World-class lighting and camera work using industry-leading 8K equipment.' },
+                { icon: 'groups', title: 'Direction', body: 'Visionary leadership that transforms scripts into visceral on-screen experiences.' },
               ].map((service) => (
                 <motion.div key={service.title} variants={iv} className="flex gap-8 group mb-12 last:mb-0">
-                  <div className="flex-shrink-0 w-16 h-16 border border-primary/20 overflow-hidden group-hover:border-primary transition-colors duration-500 bg-black/40">
-                    <img src={service.img} alt={service.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <div className="flex-shrink-0 w-16 h-16 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors duration-500">
+                    <span className="material-symbols-outlined text-3xl">{service.icon}</span>
                   </div>
                   <div className="space-y-2">
                     <h5 className="text-xl font-bold font-headline uppercase tracking-tight">{service.title}</h5>
@@ -447,14 +447,17 @@ export default function Home() {
               ))}
             </StaggerChildren>
           </div>
-
+ 
           <RevealOnScroll delay={0.15} className="lg:w-1/2 grid grid-cols-2 gap-4">
-            <img className="w-full h-full object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700" alt="Camera rig" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-AIXtVE9D-byhgfZhnSPR-IysrKDs5v7r3mS45opxwmSYL9NhLZemVSKflUwI6zq253tVRYwtNVlr0De2utumQDcH1vtX7zsG-4nalmhnJ5YYAtZBuITyVHYgBs9Hq1WsQrVHfGF4fLG4s8fbTBQHpeXlTF8F_m9Uc0xdCNbjR9vS7ex0zrBNy_Mk65tWPw1tWytuqrWYD7o_PSFjylxCtB5AV2sJr6StA_QtHURCJ-YKR5C-vwNQfKSXP6kJgqXnkoK_-37iN9GA" />
+            <div className="h-full group overflow-hidden rounded-sm bg-black/20">
+              <img className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" alt="Behind the scene 3" src="/BEHIND%20THE%20SCENE/BTS%203.png" />
+            </div>
             <div className="flex flex-col gap-4 mt-12">
-              <img className="w-full h-64 object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700" alt="Director" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYXdZw9uuq7G3Qw-yVjc7qUKA_FlAR44KjDP9bK-C_apqrs8XesgMHRFZAR2wY_nzTDoaUsgZ9VSCrcUfnbkABaOguDmvzYHg_ZADRLHeWjc_DJmQkc-PmjO5OO-j7WF4Tw1admUE_dTg6rjqKm4-Yzt1igHGLAVKZ5wGHUAX6aOT41D47P3lNqc6pNjZrONiQySEShjeUd7A16PFHIGU6z2PMY-4t5jMIkiYEdsE-PbGaxCQaYZEyANJcfUGA_L4e3ALJaOszZVoB" />
-              <div className="bg-primary p-8 flex flex-col justify-between h-full">
-                <span className="text-[10px] font-black tracking-widest uppercase text-on-primary/60">TECH SPECS</span>
-                <h6 className="text-2xl font-black text-on-primary font-headline uppercase leading-tight">8K RED MONSTRO WORKFLOW</h6>
+              <div className="h-64 group overflow-hidden rounded-sm bg-black/20">
+                <img className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" alt="Behind the scene 4" src="/BEHIND%20THE%20SCENE/BTS%204.png" />
+              </div>
+              <div className="flex-1 group overflow-hidden rounded-sm bg-black/20">
+                <img className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" alt="Behind the scene 5" src="/BEHIND%20THE%20SCENE/BTS%205.png" />
               </div>
             </div>
           </RevealOnScroll>
