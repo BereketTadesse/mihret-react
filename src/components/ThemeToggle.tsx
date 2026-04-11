@@ -1,10 +1,6 @@
 import { useTheme } from './ThemeProvider';
 
-type ThemeToggleProps = {
-  compact?: boolean;
-};
-
-export default function ThemeToggle({ compact = false }: ThemeToggleProps) {
+export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
