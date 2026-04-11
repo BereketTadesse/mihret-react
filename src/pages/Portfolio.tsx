@@ -1,203 +1,420 @@
-import { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
+import { CATEGORIES, type Category, type Project } from '../data/projects';
 import RevealOnScroll from '../components/animations/RevealOnScroll';
-import StaggerChildren from '../components/animations/StaggerChildren';
 import BlurText from '../components/animations/BlurText';
-import { itemVariants, itemVariantsReduced } from '../components/animations/index';
 
+/* ── Sub-components ─────────────────────────────────────────────────── */
+function FeaturedCard({
+  project,
+  categoryId,
+}: {
+  project: Project;
+  categoryId: string;
+}) {
+  const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
+
+  return (
+    <motion.div
+      className="group relative w-full rounded-3xl overflow-hidden cursor-pointer bg-black"
+      style={{ aspectRatio: '16/9' }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      onClick={() => navigate(`/portfolio/${categoryId}/${project.slug}`)}
+      whileHover={{ scale: 1.01 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 26 }}
+    >
+      <img
+        src={project.images[0]}
+        alt={project.title}
+        className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+      />
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+
+      {/* Thumbnail strip — second image preview */}
+      {project.images[1] && (
+        <motion.div
+          className="absolute top-6 right-6 w-28 md:w-40 aspect-video rounded-xl overflow-hidden border-2 border-white/20 shadow-2xl"
+          animate={{ opacity: hovered ? 1 : 0.55, scale: hovered ? 1.04 : 1 }}
+          transition={{ duration: 0.4 }}
+        >
+          <img src={project.images[1]} alt="Still" className="w-full h-full object-contain bg-black" />
+        </motion.div>
+      )}
+
+      {/* View detail pill — appears on hover */}
+      <motion.div
+        className="absolute top-6 left-6 flex items-center gap-2 bg-primary text-on-primary text-[10px] font-label font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-xl"
+        animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 8 }}
+        transition={{ duration: 0.3 }}
+      >
+        <span className="material-symbols-outlined text-sm">arrow_forward</span>
+        View Project
+      </motion.div>
+
+      {/* Content */}
+      <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="font-label text-primary text-[10px] tracking-[0.3em] uppercase bg-primary/15 border border-primary/30 px-4 py-1.5 rounded-full">
+            {project.type}
+          </span>
+          <div className="h-px flex-1 bg-white/15" />
+          <span className="text-white/50 text-[10px] font-label tracking-widest uppercase">Featured</span>
+        </div>
+        <h3 className="font-headline text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-4 text-white">
+          {project.title}
+        </h3>
+        <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-2xl mb-6 font-body">
+          {project.description}
+        </p>
+        <div className="flex flex-wrap gap-6 text-xs font-label uppercase tracking-widest text-white/50 border-t border-white/10 pt-5">
+          <span>
+            <strong className="text-white/80">Client</strong> — {project.client}
+          </span>
+          <span>
+            <strong className="text-white/80">Crew</strong> — {project.crew}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function ProjectCard({
+  project,
+  index,
+  categoryId,
+}: {
+  project: Project;
+  index: number;
+  categoryId: string;
+}) {
+  const navigate = useNavigate();
+
+  return (
+    <motion.div
+      className="group relative overflow-hidden rounded-2xl cursor-pointer bg-surface-container-lowest border border-outline-variant/15 hover:border-primary/30 transition-colors duration-300"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.55, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -5 }}
+      onClick={() => navigate(`/portfolio/${categoryId}/${project.slug}`)}
+    >
+      {/* Image */}
+      <div className="aspect-video overflow-hidden relative bg-black">
+        <img
+          src={project.images[0]}
+          alt={project.title}
+          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+
+        {/* Dual image hint */}
+        {project.images[1] && (
+          <div className="absolute bottom-4 right-4 w-16 h-10 rounded-lg overflow-hidden border border-white/25 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-xl">
+            <img src={project.images[1]} alt="" className="w-full h-full object-contain bg-black" />
+          </div>
+        )}
+
+        <span className="absolute top-4 left-4 font-label text-[9px] tracking-[0.28em] uppercase text-primary bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-primary/25">
+          {project.type}
+        </span>
+
+        {/* Hover arrow */}
+        <div className="absolute top-4 right-4 w-8 h-8 bg-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100">
+          <span className="material-symbols-outlined text-on-primary text-sm">arrow_forward</span>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        <h4 className="font-headline text-xl font-bold uppercase tracking-tight text-on-surface mb-3 leading-snug group-hover:text-primary transition-colors duration-300">
+          {project.title}
+        </h4>
+        <p className="text-on-surface-variant text-sm leading-relaxed mb-5 font-body line-clamp-2">
+          {project.description}
+        </p>
+        <div className="flex flex-col gap-1.5 text-[11px] font-label uppercase tracking-wider text-on-surface-variant border-t border-outline-variant/20 pt-4">
+          <span>
+            <strong className="text-on-surface">Client:</strong> {project.client}
+          </span>
+          <span className="text-primary">
+            <strong className="text-on-surface">Crew:</strong> {project.crew}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function EmptyCategoryPlaceholder({ category }: { category: Category }) {
+  return (
+    <RevealOnScroll>
+      <div className="relative w-full rounded-3xl overflow-hidden border border-outline-variant/15 bg-surface-container-lowest flex flex-col items-center justify-center text-center py-24 px-8 gap-6">
+        <div
+          className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${category.accent} flex items-center justify-center shadow-xl`}
+        >
+          <span className="material-symbols-outlined text-white text-4xl">{category.icon}</span>
+        </div>
+        <div>
+          <h3 className="font-headline text-2xl font-bold uppercase tracking-tight text-on-surface mb-2">
+            {category.label}
+          </h3>
+          <p className="text-on-surface-variant text-base font-body italic mb-1">{category.tagline}</p>
+          <p className="text-on-surface-variant/60 text-sm font-label tracking-widest uppercase">
+            Projects Coming Soon
+          </p>
+        </div>
+        <Link
+          to="/contact"
+          className="flex items-center gap-2 text-[11px] font-label uppercase tracking-[0.18em] text-primary border border-primary/30 hover:bg-primary hover:text-on-primary px-6 py-3 rounded-sm transition-all duration-300"
+        >
+          Inquire About This Service
+          <span className="material-symbols-outlined text-base">arrow_forward</span>
+        </Link>
+      </div>
+    </RevealOnScroll>
+  );
+}
+
+/* ── Main Component ─────────────────────────────────────────────────── */
 export default function Portfolio() {
-  const [filter, setFilter] = useState('all');
+  const [activeCategory, setActiveCategory] = useState('movies-documentaries');
   const prefersReduced = useReducedMotion();
-  const iv = prefersReduced ? itemVariantsReduced : itemVariants;
-  const categories = ['all', 'movies-documentaries', 'commercials', 'digital-marketing', 'events'];
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  const getCategoryLabel = (category: string) => {
-    if (category === 'all') return 'All Work';
-    if (category === 'movies-documentaries') return 'Movies & Documentaries';
-    if (category === 'digital-marketing') return 'Digital Marketing';
-    return category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ');
-  };
+  const activeCat = CATEGORIES.find((c) => c.id === activeCategory)!;
+  const featured = activeCat.projects.find((p) => p.featured);
+  const rest = activeCat.projects.filter((p) => !p.featured);
 
-  const filteredStyle = (category: string) => {
-    return filter === 'all' || filter === category
-      ? { display: 'block', opacity: 1, transform: 'scale(1)' }
-      : { display: 'none', opacity: 0, transform: 'scale(0.95)' };
-  };
-
-  const getBtnClass = (activeTarget: string) => {
-    const base = "font-label tracking-widest uppercase transition-all pb-1";
-    if (filter === activeTarget) return `${base} text-primary border-b-2 border-primary`;
-    return `${base} text-on-surface-variant hover:text-on-surface`;
+  const handleSelect = (id: string) => {
+    setActiveCategory(id);
+    setTimeout(() => {
+      contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
   };
 
   return (
     <>
-      <main className="pt-32 pb-32 px-6 md:px-12 max-w-7xl mx-auto min-h-screen">
-
-        {/* Hero */}
-        <section className="mb-20">
-          <div className="max-w-4xl">
-            <BlurText 
-              text="Portfolio 2024"
-              delay={30} stepDuration={0.45} animateBy="letters" direction="top"
-              className="font-label text-primary tracking-[0.3em] uppercase mb-4 block"
+      <main className="min-h-screen font-body">
+        {/* ── Hero ──────────────────────────────────────────────────────── */}
+        <section className="relative w-full pt-40 pb-28 px-6 md:px-20 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(201,75,28,0.12),transparent_55%)]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-[min(720px,90vw)] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+          <div className="relative z-10 max-w-5xl mx-auto">
+            <BlurText
+              text="Our Portfolio"
+              delay={30}
+              stepDuration={0.45}
+              animateBy="letters"
+              direction="top"
+              className="font-label text-primary tracking-[0.3em] uppercase mb-6 block text-xs"
             />
-            
-            <div style={{ overflow: 'hidden' }} className="mb-8">
-              <h1 className="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter leading-none text-on-surface">
-                <BlurText text="Mihret Multimedia:" delay={180} stepDuration={0.45} animateBy="words" direction="top" className="mb-1" />
-                <span className="text-primary-container">
-                  <BlurText text="The Auteur's Vision." delay={180} stepDuration={0.45} animateBy="words" direction="top" />
+            <div style={{ overflow: 'hidden' }} className="mb-6">
+              <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-black tracking-[-0.04em] leading-none flex flex-col items-start gap-1">
+                <BlurText text="CRAFTED" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
+                <span className="text-primary italic">
+                  <BlurText text="STORIES," delay={180} stepDuration={0.45} animateBy="words" direction="top" />
                 </span>
+                <BlurText text="PROVEN IMPACT." delay={180} stepDuration={0.45} animateBy="words" direction="top" />
               </h1>
             </div>
-            
-            <BlurText 
-              text="Crafting cinematic experiences that blur the line between reality and digital artistry. Every frame is a deliberate choice."
-              delay={80} stepDuration={0.6} animateBy="words" direction="bottom"
-              className="text-on-surface-variant text-lg md:text-xl max-w-2xl leading-relaxed mb-10"
+            <BlurText
+              text="Explore our body of work across film, events, branding, and digital — each project a testament to craft, vision, and execution."
+              delay={60}
+              stepDuration={0.5}
+              animateBy="words"
+              direction="bottom"
+              className="text-on-surface-variant text-lg md:text-xl max-w-2xl leading-relaxed"
             />
-            <motion.div className="flex gap-4"
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.55, ease: [0.25, 0.1, 0.25, 1] }}>
-              <motion.button className="shimmer-btn relative bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-4 font-label font-bold tracking-widest uppercase overflow-hidden"
-                whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                Watch Showreel
-              </motion.button>
-              <motion.button className="border border-outline-variant/30 hover:bg-surface-container-high px-8 py-4 font-label font-bold tracking-widest uppercase transition-all"
-                whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                Inquiry
-              </motion.button>
-            </motion.div>
           </div>
         </section>
 
-        {/* Filter Bar */}
-        <div className="sticky top-24 z-30 mb-12 py-4 -mx-6 px-6 overflow-x-auto no-scrollbar glass-blur bg-surface-variant/40 rounded-xl">
-          <div className="flex items-center gap-8 min-w-max">
-            {categories.map((cat) => (
-              <button key={cat} className={getBtnClass(cat)} onClick={() => setFilter(cat)}>
-                {getCategoryLabel(cat)}
-              </button>
-            ))}
+        {/* ── Two-column layout: Sidebar + Content ──────────────────────── */}
+        <section className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-16 pb-40 flex flex-col lg:flex-row gap-10 lg:gap-16 relative">
+          {/* ── Sticky Sidebar ────────────────────────────────────────────── */}
+          <aside className="lg:w-[280px] xl:w-[310px] shrink-0">
+            <div className="lg:sticky lg:top-28 flex flex-col gap-2">
+              <p className="font-label text-[9px] uppercase tracking-[0.3em] text-on-surface-variant/60 px-1 mb-3">
+                Service Categories
+              </p>
+              {CATEGORIES.map((cat) => {
+                const isActive = activeCategory === cat.id;
+                return (
+                  <motion.button
+                    key={cat.id}
+                    onClick={() => handleSelect(cat.id)}
+                    className={`group relative w-full flex items-center gap-4 px-5 py-4 rounded-xl text-left transition-all duration-300 overflow-hidden border ${
+                      isActive
+                        ? 'bg-primary text-on-primary border-primary shadow-[0_8px_30px_rgba(201,75,28,0.3)]'
+                        : 'border-outline-variant/20 hover:border-primary/30 hover:bg-surface-container-high text-on-surface'
+                    }`}
+                    whileHover={isActive ? {} : { x: 4 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+                  >
+                    <span
+                      className={`material-symbols-outlined text-xl shrink-0 ${
+                        isActive ? 'text-on-primary' : 'text-primary'
+                      }`}
+                    >
+                      {cat.icon}
+                    </span>
+                    <span className="font-label text-[12px] font-bold uppercase tracking-wide leading-snug flex-1">
+                      {cat.label}
+                    </span>
+                    {cat.projects.length > 0 && (
+                      <span
+                        className={`text-[10px] font-black rounded-full px-2 py-0.5 shrink-0 ${
+                          isActive ? 'bg-white/20 text-on-primary' : 'bg-primary/10 text-primary'
+                        }`}
+                      >
+                        {cat.projects.length}
+                      </span>
+                    )}
+                  </motion.button>
+                );
+              })}
+
+              {/* Sidebar CTA */}
+              <div className="mt-6 p-6 rounded-2xl bg-surface-container-lowest border border-outline-variant/15 flex flex-col gap-3">
+                <span className="material-symbols-outlined text-primary text-2xl">send</span>
+                <p className="font-label text-[11px] uppercase tracking-widest text-on-surface-variant">
+                  Start a project with us
+                </p>
+                <Link
+                  to="/contact"
+                  className="flex items-center gap-2 text-[10px] font-label font-bold uppercase tracking-[0.18em] text-primary hover:underline"
+                >
+                  Get in touch
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+              </div>
+            </div>
+          </aside>
+
+          {/* ── Main Content ──────────────────────────────────────────────── */}
+          <div ref={contentRef} className="flex-1 min-w-0 pt-2 scroll-mt-28">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, y: prefersReduced ? 0 : 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: prefersReduced ? 0 : -16 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {/* Category Header */}
+                <div className="flex items-center gap-5 mb-10">
+                  <div
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${activeCat.accent} flex items-center justify-center shadow-lg shrink-0`}
+                  >
+                    <span className="material-symbols-outlined text-white text-2xl">{activeCat.icon}</span>
+                  </div>
+                  <div>
+                    <h2 className="font-headline text-2xl md:text-3xl font-black uppercase tracking-tight text-on-surface leading-none">
+                      {activeCat.label}
+                    </h2>
+                    <p className="text-on-surface-variant text-sm font-body italic mt-1">{activeCat.tagline}</p>
+                  </div>
+                  <div className="flex-1 h-px bg-gradient-to-r from-outline-variant/30 to-transparent hidden md:block" />
+                  {activeCat.projects.length > 0 && (
+                    <span className="hidden md:flex font-label text-[10px] uppercase tracking-widest text-primary border border-primary/25 bg-primary/5 px-4 py-2 rounded-full">
+                      {activeCat.projects.length} projects
+                    </span>
+                  )}
+                </div>
+
+                {activeCat.projects.length === 0 ? (
+                  <EmptyCategoryPlaceholder category={activeCat} />
+                ) : (
+                  <div className="flex flex-col gap-12">
+                    {/* Featured hero card */}
+                    {featured && (
+                      <RevealOnScroll>
+                        <FeaturedCard project={featured} categoryId={activeCategory} />
+                      </RevealOnScroll>
+                    )}
+
+                    {/* Divider */}
+                    {featured && rest.length > 0 && (
+                      <div className="flex items-center gap-4">
+                        <div className="h-px flex-1 bg-outline-variant/20" />
+                        <span className="font-label text-[9px] uppercase tracking-[0.3em] text-on-surface-variant/50">
+                          More from this category
+                        </span>
+                        <div className="h-px flex-1 bg-outline-variant/20" />
+                      </div>
+                    )}
+
+                    {/* Card grid */}
+                    {rest.length > 0 && (
+                      <div
+                        className={`grid gap-6 ${
+                          rest.length === 1
+                            ? 'grid-cols-1 md:grid-cols-2'
+                            : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
+                        }`}
+                      >
+                        {rest.map((project, i) => (
+                          <ProjectCard
+                            key={project.id}
+                            project={project}
+                            index={i}
+                            categoryId={activeCategory}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
           </div>
-        </div>
+        </section>
 
-        {/* Bento Grid */}
-        <StaggerChildren staggerDelay={0.06} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[240px]">
-          <motion.div variants={iv} style={filteredStyle('movies-documentaries')}
-            className="col-span-1 sm:col-span-2 row-span-2 group relative overflow-hidden bg-surface-container-low cursor-pointer"
-            whileHover={{ scale: 1.012 }} transition={{ type: 'spring', stiffness: 250, damping: 24 }}>
-            <img alt="The Obsidian Night" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJNu8nN5q_h8q6T0x67FAE6i_leNjM58SBqZI93tjZEA2AshvUTXQ8lJrQYla2xWcUHHTHUse_Szk6ZZPpO4EF0QekKELLEoGPW1i749-jAfBCc4EpdlLx17lMGuvxzLkrtHuyfAJpaJCNtlzQp-GpUOIuzwH3e6jSrjcihmAJEYwYRdYOx9UmYtynS3iu5LP8JUKWqwk5wIzKM6rrT_bJTFm6oNIBWeLR2kKKxLa2roWtQT5cFEwws6Xdyey7oXrOcDI0gSciZU3H" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100">
-              <span className="material-symbols-outlined text-primary text-7xl drop-shadow-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+        {/* ── CTA ──────────────────────────────────────────────────────── */}
+        <RevealOnScroll>
+          <section className="mx-4 md:mx-10 lg:mx-16 mb-20 relative overflow-hidden rounded-3xl border border-outline-variant/10 bg-surface-container-lowest">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(201,75,28,0.10),transparent_55%)]" />
+            <div className="relative z-10 text-center py-24 px-6">
+              <h2 className="font-headline text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 flex flex-wrap justify-center gap-x-4">
+                <BlurText text="Ready to create" delay={120} stepDuration={0.45} animateBy="words" direction="top" />
+                <span className="text-primary italic">
+                  <BlurText
+                    text="something iconic?"
+                    delay={120}
+                    stepDuration={0.45}
+                    animateBy="words"
+                    direction="top"
+                  />
+                </span>
+              </h2>
+              <BlurText
+                text="Let's redefine the cinematic landscape together. Our team is ready to bring your vision to life with precision and passion."
+                delay={60}
+                stepDuration={0.45}
+                animateBy="words"
+                direction="bottom"
+                className="text-on-surface-variant max-w-xl mx-auto mb-10 px-4 leading-relaxed font-body"
+              />
+              <motion.div
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+              >
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-3 shimmer-btn bg-gradient-to-br from-primary to-primary-container text-on-primary px-12 py-5 font-label font-bold tracking-[0.2em] uppercase shadow-[0_20px_60px_rgba(201,75,28,0.25)]"
+                >
+                  Let&apos;s Talk
+                  <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                </Link>
+              </motion.div>
             </div>
-            <div className="absolute bottom-6 left-6">
-              <span className="font-label text-primary-container text-xs mb-2 block tracking-widest">FEATURE FILM</span>
-              <h3 className="text-2xl font-headline font-bold uppercase tracking-tight">The Obsidian Night</h3>
-            </div>
-          </motion.div>
-
-          <motion.div variants={iv} style={filteredStyle('movies-documentaries')}
-            className="col-span-1 row-span-2 group relative overflow-hidden bg-surface-container-low cursor-pointer"
-            whileHover={{ scale: 1.012 }} transition={{ type: 'spring', stiffness: 250, damping: 24 }}>
-            <img alt="Documentary Series" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6OXangioR7ufhf8ELhqhIJq3pi6XkR_ltgXgowOmqjwsAnAhW-sEO6vkkhgmgljjhILEuoI6f9GZz_N-mYlcNXaVVSiTpBQ0PRnKQeZ0JeFsmOSTVbsJLiAzg2Id8JkHLaqg7C0nKYJIEyWAdPQisJGIlMX2mPeN4VXYAK8MmCCRT7BiuwAFQOz7Xslqs2qjH7eTE-uycGOKgjBXQtvw9heGEvjQgcUqaDjCffhnavfhJXO6OA5x5QISqDcDhbbD_4Ns2OKtOBww7" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-              <span className="material-symbols-outlined text-primary text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
-            </div>
-            <div className="absolute bottom-6 left-6">
-              <span className="font-label text-primary-container text-xs mb-2 block tracking-widest">DOCUMENTARY</span>
-              <h3 className="text-xl font-headline font-bold uppercase tracking-tight">Unfiltered Souls</h3>
-            </div>
-          </motion.div>
-
-          <motion.div variants={iv} style={filteredStyle('commercials')}
-            className="col-span-1 row-span-1 group relative overflow-hidden bg-surface-container-low cursor-pointer"
-            whileHover={{ scale: 1.012 }} transition={{ type: 'spring', stiffness: 250, damping: 24 }}>
-            <img alt="Commercial" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUzFDZ2fPdP5GgvEUXD8UftDBq6hF6TKddAgieEQkaNj3hR6wv5ZKKXkewFzx88SQbYI4VNikm2VTz9m5pq-iGAoYgk0PWfaT5GkzE3B9WFCCnNeOFgRKpisbEcHWmRo1RdOldPpkyggwAKlQEWl6DiCGKCGUNPWSVFHR3Yyh_oqI2S3Aog_kWnjd4j3Fv-yV5sca0HDGtkGkvJK6QcUOwvMyfqMD24IXcfZEkdNFJP1u2YzoMq5QCibR7NujKWko9ioHHRveCYqiu" />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors" />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-              <span className="material-symbols-outlined text-primary text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
-            </div>
-            <div className="absolute bottom-4 left-4">
-              <span className="font-label text-primary-container text-[10px] mb-1 block tracking-widest">COMMERCIAL</span>
-              <h3 className="text-lg font-headline font-bold uppercase tracking-tight">Aura Fragrance</h3>
-            </div>
-          </motion.div>
-
-          <motion.div variants={iv} style={filteredStyle('events')}
-            className="col-span-1 row-span-1 group relative overflow-hidden bg-surface-container-low cursor-pointer"
-            whileHover={{ scale: 1.012 }} transition={{ type: 'spring', stiffness: 250, damping: 24 }}>
-            <img alt="Event" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5BRQ-cA9o1d4-UAryBcPxp46TLSQhXJS_2hV7io2t6BzRzQlhz1mjwJJeLBI5cRiD0m6KGx4xailGrAHCwM0YRaH1p-0iad0U1MAFRyMFNCYXRE7Oof15UkRa2AQATpC3u8qmX5sRdV1L5bvyWXOye9nsem9N3Ol491SknM_cMgWouAl_R_1E97TXIJewRl5aVl9d5qtX6z_kfIPYSKEO41vMBHgfKPqFrjOGtrOdz9yqC4HtKYPWQfPzKAIrYeWBKL0_uXWjNiqL" />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors" />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-              <span className="material-symbols-outlined text-primary text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
-            </div>
-            <div className="absolute bottom-4 left-4">
-              <span className="font-label text-primary-container text-[10px] mb-1 block tracking-widest">EVENT</span>
-              <h3 className="text-lg font-headline font-bold uppercase tracking-tight">Vortex Festival</h3>
-            </div>
-          </motion.div>
-
-          <motion.div variants={iv} style={filteredStyle('digital-marketing')}
-            className="col-span-1 row-span-1 group relative overflow-hidden bg-surface-container-low cursor-pointer"
-            whileHover={{ scale: 1.012 }} transition={{ type: 'spring', stiffness: 250, damping: 24 }}>
-            <img alt="Digital Marketing Campaign" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANKzDg_5uwG88FloO3MqOmTsfhGoqZW3PQ1aKAu-tUgSqLB20Gvp5CqvYHbOVQNASwpC0jWuTY_leKDNwZIcuYA7qFLVln_ZE3N-3zRBw73wS-rfIUm8SWOfM7de8dMg4hFN3gvUURQwJ064KuUTld6SvCk8Y-FDezocEen-Wic6ZRpSJWmxD2lB1Eo1-QKtnhGqflPfNPGYvTTFlCPj5IZaJKw6nZSaCYNzBYzy74q6SS6Xn_hPF465PhOe0MeNhrQlmUaPgGe72Jk" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-70 group-hover:opacity-45 transition-opacity" />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-              <span className="material-symbols-outlined text-primary text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>trending_up</span>
-            </div>
-            <div className="absolute bottom-4 left-4">
-              <span className="font-label text-primary-container text-[10px] mb-1 block tracking-widest">DIGITAL MARKETING</span>
-              <h3 className="text-lg font-headline font-bold uppercase tracking-tight">Growth Campaign</h3>
-            </div>
-          </motion.div>
-
-          <motion.div variants={iv} style={filteredStyle('experimental')}
-            className="col-span-1 row-span-1 group relative overflow-hidden bg-surface-container-low cursor-pointer">
-            <img alt="Experimental" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlkHsTlyZvYfRC1-VMLzTKj1oJzQ2InHKkipyi5CGS9opNpRKVVtmBl6tkx_k2NTJGHlfa-83MRZ8MQstK16LVkVeXQdRukaAEgns5EqXM3Sy2ZzA56ntWbtjCnU3dMpXAv0nuSTzd_qcVH96PrhO1IGSlkFtRX-41Gwad_kV_kw5gL2llcH5lMeAQjS5SNTQsy5xasU99Ql7gCg6_bDEFCzgf46Ao_R4BAlj1hEc1fjrmvBEPSpmnDgek21s9nJTGu7BfP5RVKfL_" />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors" />
-            <div className="absolute bottom-4 left-4">
-              <span className="font-label text-primary-container text-[10px] mb-1 block tracking-widest">EXPERIMENTAL</span>
-              <h3 className="text-lg font-headline font-bold uppercase tracking-tight">Lens Distortion</h3>
-            </div>
-          </motion.div>
-
-          <motion.div variants={iv} style={filteredStyle('events')}
-            className="col-span-1 row-span-1 group relative overflow-hidden bg-surface-container-low cursor-pointer">
-            <img alt="Awards" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnoiEZwb20sSkXyBvDxmtj8GtGqaRDZvMla5j3b7FWfWrhbnc-d7HQVs5HVSrTA7PSaLjw71u_qqeBWk-Z25SNepNPXao3yoL8OxyvXYF71-0eesV_Ab66afFIKTG6C71S5BTameo6WxrQFOv3Ps-dyte0Vu9J9wWrjLYqcY-_esdkvupdK1Un4tUUC1bX4EGhVK5RBqMFKJX6TceY-QTeh-0EgjMqVWW8HE-u0R9ZeGVhBItHdvDxbBiRK6W1beCn9aWaw1UmIW-0" />
-            <div className="absolute inset-0 bg-surface-container-highest/60 flex flex-col items-center justify-center text-center p-6">
-              <span className="material-symbols-outlined text-primary text-4xl mb-2">star</span>
-              <h3 className="text-lg font-headline font-bold uppercase tracking-widest">Awards &amp; Recognition</h3>
-              <p className="text-[10px] font-label text-on-surface/50 mt-2">12 International Selections</p>
-            </div>
-          </motion.div>
-        </StaggerChildren>
-
-        {/* CTA */}
-        <RevealOnScroll delay={0.1}>
-          <section className="mt-32 py-24 bg-surface-container-lowest text-center rounded-2xl">
-            <h2 className="text-4xl md:text-5xl font-headline font-extrabold tracking-tighter uppercase mb-6 flex flex-wrap justify-center gap-x-3">
-              <BlurText text="Start" delay={120} stepDuration={0.45} animateBy="words" direction="top" />
-              <BlurText text="Your" delay={120} stepDuration={0.45} animateBy="words" direction="top" />
-              <span className="text-primary italic">
-                <BlurText text="Project" delay={120} stepDuration={0.45} animateBy="words" direction="top" />
-              </span>
-            </h2>
-            <BlurText
-              text="Let's redefine the cinematic landscape together. Our team is ready to bring your vision to life with precision and passion."
-              delay={60} stepDuration={0.45} animateBy="words" direction="bottom"
-              className="text-on-surface-variant max-w-xl mx-auto mb-10 px-4 leading-relaxed"
-            />
-            <motion.button className="shimmer-btn relative bg-gradient-to-br from-primary to-primary-container text-on-primary px-12 py-5 font-label font-bold tracking-[0.2em] uppercase overflow-hidden"
-              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-              Let&apos;s Talk
-            </motion.button>
           </section>
         </RevealOnScroll>
       </main>
