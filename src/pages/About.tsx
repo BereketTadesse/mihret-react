@@ -72,9 +72,6 @@ export default function About() {
             <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4">
               {visibleMembers.map((member, index) => {
                 const isActive = index === 0;
-                // Hide indices 1-3 on mobile (only show active), hide 2-3 on sm
-                const hiddenOnMobile = index > 0 ? 'hidden sm:block' : '';
-                const hiddenOnSm = index > 1 ? 'sm:hidden xl:block' : '';
                 const visibilityClass = index === 0 ? '' : index === 1 ? 'hidden sm:block' : 'hidden xl:block';
                 return (
                   <motion.article key={`${member.name}-${index}`}
