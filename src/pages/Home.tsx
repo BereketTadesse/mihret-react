@@ -431,13 +431,13 @@ export default function Home() {
             </div>
             <StaggerChildren staggerDelay={0.1} containerDelay={0.1}>
               {[
-                { icon: 'theaters', title: 'Post-Production', body: 'High-end color grading, visual effects, and sound design tailored for cinematic delivery.' },
-                { icon: 'camera_roll', title: 'Cinematography', body: 'World-class lighting and camera work using industry-leading 8K equipment.' },
-                { icon: 'groups', title: 'Direction', body: 'Visionary leadership that transforms scripts into visceral on-screen experiences.' },
+                { img: '/BEHIND%20THE%20SCENE/BTS%203.png', title: 'Post-Production', body: 'High-end color grading, visual effects, and sound design tailored for cinematic delivery.' },
+                { img: '/BEHIND%20THE%20SCENE/BTS%204.png', title: 'Cinematography', body: 'World-class lighting and camera work using industry-leading 8K equipment.' },
+                { img: '/BEHIND%20THE%20SCENE/BTS%205.png', title: 'Direction', body: 'Visionary leadership that transforms scripts into visceral on-screen experiences.' },
               ].map((service) => (
                 <motion.div key={service.title} variants={iv} className="flex gap-8 group mb-12 last:mb-0">
-                  <div className="flex-shrink-0 w-16 h-16 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors duration-500">
-                    <span className="material-symbols-outlined text-3xl">{service.icon}</span>
+                  <div className="flex-shrink-0 w-16 h-16 border border-primary/20 overflow-hidden group-hover:border-primary transition-colors duration-500 bg-black/40">
+                    <img src={service.img} alt={service.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   </div>
                   <div className="space-y-2">
                     <h5 className="text-xl font-bold font-headline uppercase tracking-tight">{service.title}</h5>
