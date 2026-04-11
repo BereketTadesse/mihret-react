@@ -177,7 +177,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     id: 'events',
-    label: 'Event Organizing & Production',
+    label: 'Event Production & Management',
     icon: 'event',
     accent: 'from-rose-600 to-red-700',
     tagline: 'Experiences crafted in every detail.',
