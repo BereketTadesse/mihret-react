@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { useLenis } from 'lenis/react';
 import { findProject } from '../data/projects';
 import RevealOnScroll from '../components/animations/RevealOnScroll';
 import BlurText from '../components/animations/BlurText';
@@ -8,13 +9,18 @@ import BlurText from '../components/animations/BlurText';
 export default function ProjectDetail() {
   const { categoryId, slug } = useParams<{ categoryId: string; slug: string }>();
   const navigate = useNavigate();
+  const lenis = useLenis();
   const [activeImage, setActiveImage] = useState(0);
 
   // Scroll to top every time the project slug changes
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
     setActiveImage(0); // also reset to first image
-  }, [slug]);
+  }, [slug, lenis]);
 
   const result = findProject(categoryId ?? '', slug ?? '');
 
@@ -82,6 +88,7 @@ export default function ProjectDetail() {
         {/* Hero title block */}
         <div className="absolute bottom-0 left-0 right-0 px-6 md:px-20 pb-12 md:pb-16">
           <motion.span
+            key={project.slug + '-type'}
             className="font-label text-primary text-[10px] tracking-[0.3em] uppercase mb-4 block"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -91,6 +98,7 @@ export default function ProjectDetail() {
           </motion.span>
           <div style={{ overflow: 'hidden' }}>
             <BlurText
+              key={project.slug + '-title'}
               text={project.title}
               delay={120}
               stepDuration={0.4}
@@ -132,7 +140,7 @@ export default function ProjectDetail() {
 
         {/* Left: description */}
         <div className="lg:col-span-2 flex flex-col gap-10">
-          <RevealOnScroll>
+          <RevealOnScroll key={project.slug + '-desc'}>
             <div className="flex flex-col gap-4">
               <span className="font-label text-[9px] uppercase tracking-[0.3em] text-on-surface-variant/60">About this project</span>
               <h2 className="font-headline text-2xl md:text-3xl font-bold uppercase tracking-tight">
@@ -146,7 +154,7 @@ export default function ProjectDetail() {
 
           {/* All images gallery — show all stills */}
           {project.images.length > 1 && (
-            <RevealOnScroll delay={0.1}>
+            <RevealOnScroll key={project.slug + '-gallery'} delay={0.1}>
               <div className="flex flex-col gap-4">
                 <span className="font-label text-[9px] uppercase tracking-[0.3em] text-on-surface-variant/60">Production Stills</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -179,7 +187,7 @@ export default function ProjectDetail() {
 
         {/* Right: metadata panel */}
         <div className="lg:col-span-1">
-          <RevealOnScroll delay={0.15}>
+          <RevealOnScroll key={project.slug + '-meta'} delay={0.15}>
             <div className="sticky top-28 flex flex-col gap-1">
               {/* Meta card */}
               <div className="rounded-2xl border border-outline-variant/20 bg-surface-container-lowest p-8 flex flex-col gap-6">

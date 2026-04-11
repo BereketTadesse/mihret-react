@@ -374,63 +374,208 @@ export const CATEGORIES: Category[] = [
     serviceImage: '/services/Tv Shows And Commercials.png',
     serviceDescription:
       'We produce engaging TV shows and high-impact commercials, combining creative storytelling, strategic messaging, and professional production to capture and retain audience attention.',
-    projects: [],
-  },
-  {
-    id: 'photo-video',
-    label: 'Photo & Video Service',
-    icon: 'photo_camera',
-    accent: 'from-sky-600 to-blue-700',
-    tagline: 'Every frame, a story.',
-    serviceImage: '/services/photo And Video service.png',
-    serviceDescription:
-      'We capture life\'s most important moments with high-quality photography and videography, delivering timeless visuals that preserve memories with creativity and precision.',
-    projects: [],
+    projects: [
+      {
+        id: 19,
+        slug: 'satela-show',
+        title: 'SATELA SHOW',
+        type: 'TV Series',
+        client: 'Satela Charitable Organization',
+        crew: 'Director: Yonatan Worku',
+        description: 'Produced over 120 episodes of a weekly TV show aired on Asham Television for two consecutive years.',
+        fullDescription: 'Produced over 120 episodes of a weekly TV show aired on Asham Television for two consecutive years. The show focuses on women’s empowerment and human rights advocacy. It includes event coverage, studio podcasts, documentaries, social research, vox pops, holiday specials, and community-based journalism.',
+        images: [
+          '/TV%20Shows%20&%20Commercials/2.1%20A.png',
+          '/TV%20Shows%20&%20Commercials/2.1%20B.png',
+          '/TV%20Shows%20&%20Commercials/2.1%20C.png',
+          '/TV%20Shows%20&%20Commercials/2.1%20D.png',
+          '/TV%20Shows%20&%20Commercials/2.1%20E.png',
+          '/TV%20Shows%20&%20Commercials/2.1%20F.png'
+        ],
+        featured: true
+      },
+      {
+        id: 20,
+        slug: 'fasika-abronet',
+        title: 'Fasika Abronet (Part 1 & 2)',
+        type: 'TV Commercial',
+        client: 'Abronet PLC',
+        crew: 'Cam: Yonatan Worku | Ed: Sead Hassen | Mng: Natnael Worku',
+        description: 'High-quality television commercials produced for Ethiopian Easter celebrations.',
+        fullDescription: 'High-quality television commercials produced for Ethiopian Easter celebrations (2016 & 2017). Scriptwriter: Fitsum Fikru.',
+        images: [
+          '/TV%20Shows%20&%20Commercials/2.2%20A.png',
+          '/TV%20Shows%20&%20Commercials/2.2%20B.png',
+          '/TV%20Shows%20&%20Commercials/2.2%20C.png'
+        ],
+        featured: false
+      },
+      {
+        id: 21,
+        slug: 'ye-almaz-dental',
+        title: 'Ye Almaz Dental',
+        type: 'Social Media Commercial',
+        client: 'Ye Almaz Dental Clinic',
+        crew: 'Cam: Yonatan Worku | Ed: Sead Hassen',
+        description: 'A polished social media commercial driving brand awareness and patient engagement.',
+        fullDescription: 'A polished social media commercial driving brand awareness and patient engagement for Ye Almaz Dental Clinic.',
+        images: [
+          '/TV%20Shows%20&%20Commercials/2.3%20A.png',
+          '/TV%20Shows%20&%20Commercials/2.3%20B.png'
+        ],
+        featured: false
+      }
+    ],
   },
   {
     id: 'portrait',
-    label: 'Portrait Creatives',
+    label: 'Portraits',
     icon: 'auto_awesome',
     accent: 'from-teal-600 to-emerald-700',
     tagline: 'Faces, fashion, and form.',
     serviceImage: '/services/portrait Creatives.png',
     serviceDescription:
       'We create visually striking portrait and creative content tailored for individuals and brands, specializing in reels, fashion, model portfolios, and product photography that stand out.',
-    projects: [],
+    projects: [
+      {
+        id: 28,
+        slug: 'loret-art-academy-photoshoot',
+        title: 'Loret Art Academy Photoshoot',
+        type: 'Portrait Photography',
+        client: 'Kedamawi Modeling School',
+        crew: 'Photographer: Yonatan Worku',
+        description: 'A striking portrait photography series for Kedamawi Modeling School.',
+        fullDescription: 'A striking portrait photography series commissioned by Kedamawi Modeling School, designed to highlight individual expression and fashion aesthetics.',
+        images: [
+          '/Portraits/5.1%20A.png',
+          '/Portraits/5.1%20B.png',
+          '/Portraits/5.1%20C.png',
+          '/Portraits/5.1%20D.png',
+          '/Portraits/5.1%20E.png'
+        ],
+        featured: true
+      },
+      {
+        id: 29,
+        slug: 'graduation-portrait-photography',
+        title: 'Graduation Portrait Photography',
+        type: 'Photography',
+        client: 'Addis Ababa University (Chinese Language Graduates – 2017)',
+        crew: 'Photographers: Sead Hassen & Natnael Worku',
+        description: 'Professional graduation portraits capturing a monumental milestone.',
+        fullDescription: 'Professional graduation portraits for the Addis Ababa University Chinese Language Graduates of 2017, effectively capturing the joy and monumental milestone of the students.',
+        images: [
+          '/Portraits/5.2%20A.png',
+          '/Portraits/5.2%20B.png',
+          '/Portraits/5.2%20C.png',
+          '/Portraits/5.2%20D.png',
+          '/Portraits/5.2%20E.png'
+        ],
+        featured: false
+      }
+    ],
   },
   {
     id: 'digital-marketing',
-    label: 'Digital Marketing & Web',
+    label: 'Digital Marketing, Web & Branding',
     icon: 'ads_click',
     accent: 'from-lime-600 to-green-700',
     tagline: 'Growth through digital vision.',
     serviceImage: '/services/Digital Marketing.png',
     serviceDescription:
       'We provide result-driven digital marketing solutions, including content creation, social media management, targeted campaigns, and website development to grow brand visibility and drive engagement.',
-    projects: [],
-  },
-  {
-    id: 'graphics',
-    label: 'Graphics Design & Editing',
-    icon: 'brush',
-    accent: 'from-pink-600 to-fuchsia-700',
-    tagline: 'Visual identity, perfected.',
-    serviceImage: '/services/Graphics design And Editing services.png',
-    serviceDescription:
-      'We deliver creative graphic design and professional editing solutions, producing visually appealing content that enhances brand identity and communicates messages effectively.',
-    projects: [],
-  },
-  {
-    id: 'youtube',
-    label: 'YouTube Management',
-    icon: 'videocam',
-    accent: 'from-red-600 to-rose-700',
-    tagline: 'Channels built to grow.',
-    serviceImage: '/services/Youtube Managment.png',
-    serviceDescription:
-      'We offer complete YouTube channel management, including content planning, video optimization, uploading, and performance tracking to grow your audience and maximize engagement.',
-    projects: [],
-  },
+    projects: [
+      {
+        id: 22,
+        slug: 'abronet-saccos-branding',
+        title: 'Abronet SACCOs Branding',
+        type: 'Branding',
+        client: 'Abronet SACCOs',
+        crew: 'Designer: Eyerusalem Gezaheng',
+        description: 'Full organizational branding package.',
+        fullDescription: 'Full organizational branding package encompassing visual identity, print materials, and digital brand guidelines to standardize communications.',
+        images: [
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.1.png'
+        ],
+        featured: false
+      },
+      {
+        id: 23,
+        slug: 'absimadakos-media',
+        title: 'Absimadakos Media',
+        type: 'Branding',
+        client: 'Absimadakos Media',
+        crew: 'Designer: Yonatan Worku',
+        description: 'Complete digital branding including logo, intro animation, banner, and channel setup.',
+        fullDescription: 'Complete digital branding including logo, intro animation, banner, and channel setup to launch and align the brand’s digital presence.',
+        images: [
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.2.png'
+        ],
+        featured: true
+      },
+      {
+        id: 24,
+        slug: 'canary-tube',
+        title: 'Canary Tube',
+        type: 'Branding',
+        client: 'Canary Tube',
+        crew: 'Designer: Yonatan Worku',
+        description: 'Full digital branding and channel setup.',
+        fullDescription: 'Full digital branding and YouTube channel setup for a clean, recognizable visual presence designed for high audience engagement.',
+        images: [
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.3%20A.png',
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.3%20B.png',
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.3%20C.png'
+        ],
+        featured: false
+      },
+      {
+        id: 25,
+        slug: 'cartela',
+        title: 'Cartela',
+        type: 'Branding',
+        client: 'Enjoy Cartela',
+        crew: 'Designer: Yonatan Worku',
+        description: 'Complete brand identity including logo, color scheme, and website design.',
+        fullDescription: 'Complete brand identity including logo, color scheme, and website design, capturing a vibrant, engaging experience for users from the first interaction.',
+        images: [
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.4.png'
+        ],
+        featured: false
+      },
+      {
+        id: 26,
+        slug: 'tds-multimedia',
+        title: 'TDS Multimedia',
+        type: 'Digital Marketing',
+        client: 'TDS Multimedia',
+        crew: 'Mihret Multimedia',
+        description: 'Streamlined digital marketing initiatives for TDS Multimedia.',
+        fullDescription: 'A streamlined multi-channel digital marketing initiative tailored to boost awareness and conversions for TDS Multimedia’s services.',
+        images: [
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.5.png'
+        ],
+        featured: false
+      },
+      {
+        id: 27,
+        slug: 'abronet-business-consultancy',
+        title: 'Abronet Business Consultancy',
+        type: 'Digital Marketing',
+        client: 'Abronet Business Consultancy',
+        crew: 'Mihret Multimedia',
+        description: 'A 6-month contract providing full digital marketing services.',
+        fullDescription: 'A 6-month contract providing full digital marketing services including branding, content creation, and management of YouTube, TikTok, Instagram, and Facebook platforms.',
+        images: [
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20A%20(1).jpg',
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20B.jpg',
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20C.png',
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20D.jpg'
+        ],
+        featured: false
+      }
+    ],
+  }
 ];
 
 /** Helper: find a single project by category + slug */

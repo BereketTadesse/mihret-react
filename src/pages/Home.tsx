@@ -5,10 +5,18 @@ import RevealOnScroll from '../components/animations/RevealOnScroll';
 import StaggerChildren from '../components/animations/StaggerChildren';
 import BlurText from '../components/animations/BlurText';
 import { itemVariants, itemVariantsReduced } from '../components/animations/index';
+import { CATEGORIES } from '../data/projects';
 
 export default function Home() {
   const navigate = useNavigate();
   const [isShowreelOpen, setIsShowreelOpen] = useState(false);
+  
+  const allProjects = CATEGORIES.flatMap(c => c.projects.map(p => ({ ...p, categoryId: c.id })));
+  const homeFeatured = allProjects.filter(p => p.featured);
+  const displayProjects = homeFeatured.length >= 3 ? homeFeatured.slice(0, 3) : allProjects.slice(0, 3);
+  const mainProject = displayProjects[0];
+  const sideProject1 = displayProjects[1];
+  const sideProject2 = displayProjects[2];
   const prefersReduced = useReducedMotion();
   const iv = prefersReduced ? itemVariantsReduced : itemVariants;
   const glareX = useMotionValue(50);
@@ -293,52 +301,64 @@ export default function Home() {
           staggerDelay={0.1}
           className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[900px]"
         >
-          {/* Main Card */}
-          <motion.div
-            variants={iv}
-            className="md:col-span-8 group relative overflow-hidden bg-surface-container-low rounded-lg shadow-2xl cursor-pointer"
-          >
-            <img
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              alt="Atmospheric still from a dramatic narrative film"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbpkT7sL07kttjSoOd5zWJIactrkacxRgSbgIRThuYcQ89IMvp3JK_WpoUlrrWCT6_kVO9gWJmRIMz_kioVT6hE0sD7PQHCpdKqdi2ul38nXWndd1bw0Q2Ykf44sB10_8sO9RuIJMkz_Vy9uAsX1p5c2Dpop-A23cSDCixyZqzuFHC0kQiCTfvJjPzs8RR2ZTv7bJEm8FP9USXghrWQvFGeOvrpYae-OZGJS3Wy8j64td2gS-iAnuAiieej0HMAp_Q7KLCOQ5mxhXm"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80"></div>
-            <div className="absolute bottom-0 left-0 p-12 w-full flex justify-between items-end">
-              <div className="space-y-4">
-                <span className="bg-primary/20 backdrop-blur-md px-3 py-1 rounded-sm text-[10px] text-primary font-bold tracking-widest uppercase border border-primary/20">DRAMA / 2024</span>
-                <h4 className="text-4xl font-black font-headline tracking-tighter uppercase">THE SILENT VALLEY</h4>
+          {mainProject && (
+            <motion.div
+              variants={iv}
+              onClick={() => navigate(`/portfolio/${mainProject.categoryId}/${mainProject.slug}`)}
+              className="md:col-span-8 group relative overflow-hidden bg-black rounded-lg shadow-2xl cursor-pointer flex items-center justify-center border border-white/5"
+            >
+              <img
+                className="w-full h-full object-contain bg-black transition-transform duration-700 group-hover:scale-[1.02]"
+                alt={mainProject.title}
+                src={mainProject.images[0]}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full flex justify-between items-end pointer-events-none">
+                <div className="space-y-3 md:space-y-4">
+                  <span className="bg-primary/20 backdrop-blur-md px-3 py-1 rounded-sm text-[10px] text-primary font-bold tracking-widest uppercase border border-primary/20">{mainProject.type}</span>
+                  <h4 className="text-3xl md:text-5xl font-black font-headline tracking-tighter uppercase leading-none">{mainProject.title}</h4>
+                </div>
+                <span className="material-symbols-outlined text-4xl text-primary opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-300">arrow_forward</span>
               </div>
-              <span className="material-symbols-outlined text-4xl text-primary opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-300">arrow_forward</span>
-            </div>
-          </motion.div>
+            </motion.div>
+          )}
 
-          {/* Side Cards */}
           <motion.div variants={iv} className="md:col-span-4 flex flex-col gap-6">
-            <div className="flex-1 group relative overflow-hidden bg-surface-container-low rounded-lg shadow-xl cursor-pointer">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="Cinematic commercial production shot"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjk9hjiFZOXbkdsW79PJmnzBK-1CrpYhyyxzenhoX0Fpw6hO_7TZB8-XCdNqwv4q0OtliRsddlDnrv7_ZMtogps9fUDUtjytgs6hZiKMFaQYZY02VhGtrN_Ec_VIYoxX-OCOrfKr7_D7Y4kR2k1XidvaubxDdRU6jDP3KnWOt5TUyceBBkqU_VuXvGKRvLPbGhyLcOSEAj8VBkOQ1zOfYRNHIsgl46UdG9-nBX2nh6miOrNWYLwZ2NyhZVE5v9F-MekdgkVj2uBHLL"
-              />
-              <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] group-hover:backdrop-blur-none transition-all duration-500"></div>
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <span className="text-[10px] text-primary font-bold tracking-widest uppercase mb-2">COMMERCIAL</span>
-                <h4 className="text-xl font-black font-headline tracking-tight uppercase">ETHEREAL FLOW</h4>
+            {sideProject1 && (
+              <div 
+                onClick={() => navigate(`/portfolio/${sideProject1.categoryId}/${sideProject1.slug}`)}
+                className="flex-1 group relative overflow-hidden bg-black rounded-lg shadow-xl cursor-pointer flex items-center justify-center border border-white/5"
+              >
+                <img
+                  className="w-full h-full object-contain bg-black transition-transform duration-700 group-hover:scale-[1.03]"
+                  alt={sideProject1.title}
+                  src={sideProject1.images[0]}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-all duration-500 pointer-events-none"></div>
+                <div className="absolute inset-0 p-8 flex flex-col justify-end pointer-events-none">
+                  <span className="text-[10px] text-primary font-bold tracking-widest uppercase mb-2 drop-shadow-md">{sideProject1.type}</span>
+                  <h4 className="text-xl font-black font-headline tracking-tight uppercase drop-shadow-lg leading-tight">{sideProject1.title}</h4>
+                </div>
               </div>
-            </div>
-            <div className="flex-1 group relative overflow-hidden bg-surface-container-low rounded-lg shadow-xl cursor-pointer">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="Documentary style film production"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAttxd2LGCfR4pfHQKL4HE505fB5QEE4CizbBH8wTPK2KLAzMp6EZYZtPJErJyVQkmXUd7zLNPrTCh-EDwzRigAsMlI4x-bu5ySD_DrKZrYgDoQQi5QCy-GTZOMYTh2MK5g7G43E116m2M4NQCGEm2SSDpUO-UxWQ5W_2-6rPH9dzxY09Jbg3WVdPqYFUXR8pWeS4XpnuzA7vba66GbWmWYr35-NLPE-2KtSez7xTy93Sy0yYleb9tvOiIT29TCjU1rbWBX799iwJJi"
-              />
-              <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] group-hover:backdrop-blur-none transition-all duration-500"></div>
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <span className="text-[10px] text-primary font-bold tracking-widest uppercase mb-2">DOCUMENTARY</span>
-                <h4 className="text-xl font-black font-headline tracking-tight uppercase">URBAN RHYTHMS</h4>
+            )}
+            
+            {sideProject2 && (
+              <div 
+                onClick={() => navigate(`/portfolio/${sideProject2.categoryId}/${sideProject2.slug}`)}
+                className="flex-1 group relative overflow-hidden bg-black rounded-lg shadow-xl cursor-pointer flex items-center justify-center border border-white/5"
+              >
+                <img
+                  className="w-full h-full object-contain bg-black transition-transform duration-700 group-hover:scale-[1.03]"
+                  alt={sideProject2.title}
+                  src={sideProject2.images[0]}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-all duration-500 pointer-events-none"></div>
+                <div className="absolute inset-0 p-8 flex flex-col justify-end pointer-events-none">
+                  <span className="text-[10px] text-primary font-bold tracking-widest uppercase mb-2 drop-shadow-md">{sideProject2.type}</span>
+                  <h4 className="text-xl font-black font-headline tracking-tight uppercase drop-shadow-lg leading-tight">{sideProject2.title}</h4>
+                </div>
               </div>
-            </div>
+            )}
           </motion.div>
         </StaggerChildren>
       </section>
