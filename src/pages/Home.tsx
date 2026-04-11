@@ -94,7 +94,7 @@ export default function Home() {
       )}
 
       {/* ── Hero Section ─────────────────────────────────────────────── */}
-      <main className="relative min-h-screen w-full flex items-center justify-start overflow-hidden pt-28 pb-24 md:pt-32 md:pb-28">
+      <main className="relative min-h-screen w-full flex items-center justify-start overflow-hidden pt-24 pb-20 md:pt-32 md:pb-28">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent z-10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"></div>
@@ -105,11 +105,11 @@ export default function Home() {
           />
         </div>
 
-        <div className="relative z-20 px-8 md:px-24 max-w-5xl">
+        <div className="relative z-20 px-6 md:px-24 max-w-5xl">
 
           {/* Hero heading — blur reveal */}
-          <div style={{ overflow: 'hidden' }} className="mb-5 md:mb-6">
-            <h2 className="text-4xl sm:text-5xl md:text-[4.25rem] lg:text-[5.5rem] xl:text-[6rem] font-black tracking-tighter leading-[0.88] font-headline uppercase flex flex-col gap-1 sm:gap-2 items-start">
+          <div style={{ overflow: 'hidden' }} className="mb-4 md:mb-6">
+            <h2 className="text-[2.15rem] xs:text-4xl sm:text-5xl md:text-[4.25rem] lg:text-[5.5rem] xl:text-[6rem] font-black tracking-tighter leading-[0.9] font-headline uppercase flex flex-col gap-0.5 sm:gap-2 items-start">
               <BlurText text="MIHRET" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
               <span className="text-primary">
                 <BlurText text="MULTIMEDIA" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
@@ -126,7 +126,7 @@ export default function Home() {
             stepDuration={0.45}
             animateBy="words"
             direction="bottom"
-            className="text-base sm:text-lg md:text-xl text-on-surface/80 max-w-xl mb-8 md:mb-10 leading-relaxed font-body"
+            className="text-sm sm:text-lg md:text-xl text-on-surface/80 max-w-xl mb-6 md:mb-10 leading-relaxed font-body"
           />
 
           {/* CTA Buttons — staggered */}
@@ -138,17 +138,17 @@ export default function Home() {
           >
             <motion.button
               type="button"
-              className="shimmer-btn group relative px-8 md:px-10 py-4 md:py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold tracking-widest uppercase text-sm flex items-center gap-3"
+              className="shimmer-btn group relative px-6 md:px-10 py-3.5 md:py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold tracking-widest uppercase text-xs md:text-sm flex items-center gap-2 md:gap-3"
               onClick={() => setIsShowreelOpen(true)}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >
               WATCH SHOWREEL
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+              <span className="material-symbols-outlined text-sm md:text-base" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
             </motion.button>
             <motion.button
-              className="px-8 md:px-10 py-4 md:py-5 border border-outline-variant/30 text-on-surface font-bold tracking-widest uppercase text-sm hover:bg-white/5 transition-colors"
+              className="px-6 md:px-10 py-3.5 md:py-5 border border-outline-variant/30 text-on-surface font-bold tracking-widest uppercase text-xs md:text-sm hover:bg-white/5 transition-colors"
               onClick={() => navigate('/portfolio')}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -299,13 +299,13 @@ export default function Home() {
 
         <StaggerChildren
           staggerDelay={0.1}
-          className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[900px]"
+          className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 h-auto md:h-[900px]"
         >
           {mainProject && (
             <motion.div
               variants={iv}
               onClick={() => navigate(`/portfolio/${mainProject.categoryId}/${mainProject.slug}`)}
-              className="md:col-span-8 group relative overflow-hidden bg-black rounded-lg shadow-2xl cursor-pointer flex items-center justify-center border border-white/5"
+              className="md:col-span-8 group relative overflow-hidden bg-black rounded-lg shadow-2xl cursor-pointer flex items-center justify-center border border-white/5 min-h-[260px] md:min-h-0"
             >
               <img
                 className="w-full h-full object-contain bg-black transition-transform duration-700 group-hover:scale-[1.02]"
@@ -313,21 +313,21 @@ export default function Home() {
                 src={mainProject.images[0]}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 pointer-events-none"></div>
-              <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full flex justify-between items-end pointer-events-none">
-                <div className="space-y-3 md:space-y-4">
+              <div className="absolute bottom-0 left-0 p-5 md:p-12 w-full flex justify-between items-end pointer-events-none">
+                <div className="space-y-2 md:space-y-4">
                   <span className="bg-primary/20 backdrop-blur-md px-3 py-1 rounded-sm text-[10px] text-primary font-bold tracking-widest uppercase border border-primary/20">{mainProject.type}</span>
-                  <h4 className="text-3xl md:text-5xl font-black font-headline tracking-tighter uppercase leading-none text-white">{mainProject.title}</h4>
+                  <h4 className="text-xl md:text-5xl font-black font-headline tracking-tighter uppercase leading-none text-white">{mainProject.title}</h4>
                 </div>
-                <span className="material-symbols-outlined text-4xl text-primary opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-300">arrow_forward</span>
+                <span className="material-symbols-outlined text-2xl md:text-4xl text-primary opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-300">arrow_forward</span>
               </div>
             </motion.div>
           )}
 
-          <motion.div variants={iv} className="md:col-span-4 flex flex-col gap-6">
+          <motion.div variants={iv} className="md:col-span-4 flex flex-row md:flex-col gap-3 md:gap-6">
             {sideProject1 && (
               <div 
                 onClick={() => navigate(`/portfolio/${sideProject1.categoryId}/${sideProject1.slug}`)}
-                className="flex-1 group relative overflow-hidden bg-black rounded-lg shadow-xl cursor-pointer flex items-center justify-center border border-white/5"
+                className="flex-1 group relative overflow-hidden bg-black rounded-lg shadow-xl cursor-pointer flex items-center justify-center border border-white/5 min-h-[150px] md:min-h-0"
               >
                 <img
                   className="w-full h-full object-contain bg-black transition-transform duration-700 group-hover:scale-[1.03]"
@@ -335,9 +335,9 @@ export default function Home() {
                   src={sideProject1.images[0]}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-all duration-500 pointer-events-none"></div>
-                <div className="absolute inset-0 p-8 flex flex-col justify-end pointer-events-none">
-                  <span className="text-[10px] text-primary font-bold tracking-widest uppercase mb-2 drop-shadow-md">{sideProject1.type}</span>
-                  <h4 className="text-xl font-black font-headline tracking-tight uppercase drop-shadow-lg leading-tight text-white">{sideProject1.title}</h4>
+                <div className="absolute inset-0 p-4 md:p-8 flex flex-col justify-end pointer-events-none">
+                  <span className="text-[9px] md:text-[10px] text-primary font-bold tracking-widest uppercase mb-1 drop-shadow-md">{sideProject1.type}</span>
+                  <h4 className="text-sm md:text-xl font-black font-headline tracking-tight uppercase drop-shadow-lg leading-tight text-white">{sideProject1.title}</h4>
                 </div>
               </div>
             )}
@@ -345,7 +345,7 @@ export default function Home() {
             {sideProject2 && (
               <div 
                 onClick={() => navigate(`/portfolio/${sideProject2.categoryId}/${sideProject2.slug}`)}
-                className="flex-1 group relative overflow-hidden bg-black rounded-lg shadow-xl cursor-pointer flex items-center justify-center border border-white/5"
+                className="flex-1 group relative overflow-hidden bg-black rounded-lg shadow-xl cursor-pointer flex items-center justify-center border border-white/5 min-h-[150px] md:min-h-0"
               >
                 <img
                   className="w-full h-full object-contain bg-black transition-transform duration-700 group-hover:scale-[1.03]"
@@ -353,9 +353,9 @@ export default function Home() {
                   src={sideProject2.images[0]}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-all duration-500 pointer-events-none"></div>
-                <div className="absolute inset-0 p-8 flex flex-col justify-end pointer-events-none">
-                  <span className="text-[10px] text-primary font-bold tracking-widest uppercase mb-2 drop-shadow-md">{sideProject2.type}</span>
-                  <h4 className="text-xl font-black font-headline tracking-tight uppercase drop-shadow-lg leading-tight text-white">{sideProject2.title}</h4>
+                <div className="absolute inset-0 p-4 md:p-8 flex flex-col justify-end pointer-events-none">
+                  <span className="text-[9px] md:text-[10px] text-primary font-bold tracking-widest uppercase mb-1 drop-shadow-md">{sideProject2.type}</span>
+                  <h4 className="text-sm md:text-xl font-black font-headline tracking-tight uppercase drop-shadow-lg leading-tight text-white">{sideProject2.title}</h4>
                 </div>
               </div>
             )}
@@ -414,8 +414,8 @@ export default function Home() {
       </section>
 
       {/* ── Services Section ─────────────────────────────────────────── */}
-      <section className="py-32 px-8 md:px-24 bg-surface font-body overflow-x-hidden">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
+      <section className="py-16 md:py-32 px-5 md:px-24 bg-surface font-body overflow-x-hidden">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 md:gap-20 items-center">
           <div className="lg:w-1/2 relative">
             <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 blur-[100px]"></div>
             <div style={{ overflow: 'hidden' }} className="mb-12">
@@ -448,15 +448,15 @@ export default function Home() {
             </StaggerChildren>
           </div>
  
-          <RevealOnScroll delay={0.15} className="lg:w-1/2 grid grid-cols-2 gap-4">
-            <div className="h-full group overflow-hidden rounded-sm bg-black/20">
+          <RevealOnScroll delay={0.15} className="lg:w-1/2 grid grid-cols-2 gap-3 md:gap-4">
+            <div className="h-48 sm:h-64 md:h-full group overflow-hidden rounded-sm bg-black/20">
               <img className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" alt="Behind the scene 3" src="/BEHIND%20THE%20SCENE/BTS%203.png" />
             </div>
-            <div className="flex flex-col gap-4 mt-12">
-              <div className="h-64 group overflow-hidden rounded-sm bg-black/20">
+            <div className="flex flex-col gap-3 md:gap-4 mt-8 md:mt-12">
+              <div className="h-32 sm:h-40 md:h-64 group overflow-hidden rounded-sm bg-black/20">
                 <img className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" alt="Behind the scene 4" src="/BEHIND%20THE%20SCENE/BTS%204.png" />
               </div>
-              <div className="flex-1 group overflow-hidden rounded-sm bg-black/20">
+              <div className="h-28 sm:h-36 md:flex-1 group overflow-hidden rounded-sm bg-black/20">
                 <img className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" alt="Behind the scene 5" src="/BEHIND%20THE%20SCENE/BTS%205.png" />
               </div>
             </div>

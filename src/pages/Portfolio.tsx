@@ -17,71 +17,105 @@ function FeaturedCard({
   const navigate = useNavigate();
 
   return (
-    <motion.div
-      className="group relative w-full rounded-3xl overflow-hidden cursor-pointer bg-black"
-      style={{ aspectRatio: '16/9' }}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
+    <div
+      className="group cursor-pointer rounded-3xl overflow-hidden bg-black shadow-2xl border border-white/5"
       onClick={() => navigate(`/portfolio/${categoryId}/${project.slug}`)}
-      whileHover={{ scale: 1.01 }}
-      transition={{ type: 'spring', stiffness: 200, damping: 26 }}
     >
-      <img
-        src={project.images[0]}
-        alt={project.title}
-        className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
-      />
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-
-      {/* Thumbnail strip — second image preview */}
-      {project.images[1] && (
-        <motion.div
-          className="absolute top-6 right-6 w-28 md:w-40 aspect-video rounded-xl overflow-hidden border-2 border-white/20 shadow-2xl"
-          animate={{ opacity: hovered ? 1 : 0.55, scale: hovered ? 1.04 : 1 }}
-          transition={{ duration: 0.4 }}
-        >
-          <img src={project.images[1]} alt="Still" className="w-full h-full object-contain bg-black" />
-        </motion.div>
-      )}
-
-      {/* View detail pill — appears on hover */}
+      {/* Image area */}
       <motion.div
-        className="absolute top-6 left-6 flex items-center gap-2 bg-primary text-on-primary text-[10px] font-label font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-xl"
-        animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 8 }}
-        transition={{ duration: 0.3 }}
+        className="relative w-full overflow-hidden"
+        style={{ aspectRatio: '16/9' }}
+        onHoverStart={() => setHovered(true)}
+        onHoverEnd={() => setHovered(false)}
+        whileHover={{ scale: 1.01 }}
+        transition={{ type: 'spring', stiffness: 200, damping: 26 }}
       >
-        <span className="material-symbols-outlined text-sm">arrow_forward</span>
-        View Project
-      </motion.div>
+        <img
+          src={project.images[0]}
+          alt={project.title}
+          className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent md:from-black md:via-black/50" />
 
-      {/* Content */}
-      <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="font-label text-primary text-[10px] tracking-[0.3em] uppercase bg-primary/15 border border-primary/30 px-4 py-1.5 rounded-full">
+        {/* Thumbnail strip */}
+        {project.images[1] && (
+          <motion.div
+            className="absolute top-6 right-6 w-28 md:w-40 aspect-video rounded-xl overflow-hidden border-2 border-white/20 shadow-2xl"
+            animate={{ opacity: hovered ? 1 : 0.55, scale: hovered ? 1.04 : 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <img src={project.images[1]} alt="Still" className="w-full h-full object-contain bg-black" />
+          </motion.div>
+        )}
+
+        {/* Hover pill */}
+        <motion.div
+          className="absolute top-6 left-6 flex items-center gap-2 bg-primary text-on-primary text-[10px] font-label font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-xl"
+          animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 8 }}
+          transition={{ duration: 0.3 }}
+        >
+          <span className="material-symbols-outlined text-sm">arrow_forward</span>
+          View Project
+        </motion.div>
+
+        {/* Mobile: minimal title inside image */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 md:hidden">
+          <span className="font-label text-primary text-[9px] tracking-[0.28em] uppercase bg-primary/15 border border-primary/30 px-3 py-1 rounded-full">
             {project.type}
           </span>
-          <div className="h-px flex-1 bg-white/15" />
-          <span className="text-white/50 text-[10px] font-label tracking-widest uppercase">Featured</span>
+          <h3 className="font-headline text-xl font-black uppercase tracking-tighter leading-tight text-white mt-2">
+            {project.title}
+          </h3>
         </div>
-        <h3 className="font-headline text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-4 text-white">
-          {project.title}
-        </h3>
-        <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-2xl mb-6 font-body">
+
+        {/* Desktop: full overlay content */}
+        <div className="absolute inset-0 hidden md:flex flex-col justify-end p-8 md:p-12">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="font-label text-primary text-[10px] tracking-[0.3em] uppercase bg-primary/15 border border-primary/30 px-4 py-1.5 rounded-full">
+              {project.type}
+            </span>
+            <div className="h-px flex-1 bg-white/15" />
+            <span className="text-white/50 text-[10px] font-label tracking-widest uppercase">Featured</span>
+          </div>
+          <h3 className="font-headline text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-4 text-white">
+            {project.title}
+          </h3>
+          <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-2xl mb-6 font-body">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-6 text-xs font-label uppercase tracking-widest text-white/50 border-t border-white/10 pt-5">
+            <span>
+              <strong className="text-white/80">Client</strong> — {project.client}
+            </span>
+            <span>
+              <strong className="text-white/80">Crew</strong> — {project.crew}
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Mobile only: description + meta below image */}
+      <div className="md:hidden p-4 bg-surface-container-lowest">
+        <p className="text-on-surface-variant text-xs leading-relaxed mb-3 font-body line-clamp-2">
           {project.description}
         </p>
-        <div className="flex flex-wrap gap-6 text-xs font-label uppercase tracking-widest text-white/50 border-t border-white/10 pt-5">
+        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-[10px] font-label uppercase tracking-widest text-on-surface-variant border-t border-outline-variant/20 pt-3">
           <span>
-            <strong className="text-white/80">Client</strong> — {project.client}
+            <strong className="text-on-surface">Client</strong> — {project.client}
           </span>
           <span>
-            <strong className="text-white/80">Crew</strong> — {project.crew}
+            <strong className="text-on-surface">Crew</strong> — {project.crew}
           </span>
         </div>
+        <div className="mt-3 flex items-center gap-1.5 text-primary text-[10px] font-bold uppercase tracking-widest">
+          <span className="material-symbols-outlined text-sm">arrow_forward</span>
+          View Project
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
+
 
 function ProjectCard({
   project,
@@ -202,7 +236,7 @@ export default function Portfolio() {
     <>
       <main className="min-h-screen font-body">
         {/* ── Hero ──────────────────────────────────────────────────────── */}
-        <section className="relative w-full pt-40 pb-28 px-6 md:px-20 overflow-hidden">
+        <section className="relative w-full pt-28 md:pt-40 pb-16 md:pb-28 px-4 md:px-20 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(201,75,28,0.12),transparent_55%)]" />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-[min(720px,90vw)] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
           <div className="relative z-10 max-w-5xl mx-auto">
@@ -214,8 +248,8 @@ export default function Portfolio() {
               direction="top"
               className="font-label text-primary tracking-[0.3em] uppercase mb-6 block text-xs"
             />
-            <div style={{ overflow: 'hidden' }} className="mb-6">
-              <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-black tracking-[-0.04em] leading-none flex flex-col items-start gap-1">
+            <div style={{ overflow: 'hidden' }} className="mb-4 md:mb-6">
+              <h1 className="font-headline text-4xl md:text-7xl lg:text-8xl font-black tracking-[-0.04em] leading-none flex flex-col items-start gap-1">
                 <BlurText text="CRAFTED" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
                 <span className="text-primary italic">
                   <BlurText text="STORIES," delay={180} stepDuration={0.45} animateBy="words" direction="top" />
@@ -234,10 +268,38 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {/* ── Mobile category chip strip (hidden on lg+) ─────────────── */}
+        <div className="lg:hidden px-4 pb-4 pt-2">
+          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+            {CATEGORIES.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => handleSelect(cat.id)}
+                  className={`flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-wide border transition-all duration-300 active:scale-95 ${
+                    isActive
+                      ? 'bg-primary text-on-primary border-primary shadow-[0_4px_20px_rgba(201,75,28,0.35)]'
+                      : 'border-outline-variant/25 bg-surface-container-low text-on-surface-variant'
+                  }`}
+                >
+                  <span className={`material-symbols-outlined text-[15px] ${isActive ? 'text-on-primary' : 'text-primary'}`}>{cat.icon}</span>
+                  {cat.label}
+                  {cat.projects.length > 0 && (
+                    <span className={`text-[9px] font-black rounded-full px-1.5 py-0.5 ${
+                      isActive ? 'bg-white/25 text-white' : 'bg-primary/10 text-primary'
+                    }`}>{cat.projects.length}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* ── Two-column layout: Sidebar + Content ──────────────────────── */}
-        <section className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-16 pb-40 flex flex-col lg:flex-row gap-10 lg:gap-16 relative">
-          {/* ── Sticky Sidebar ────────────────────────────────────────────── */}
-          <aside className="lg:w-[280px] xl:w-[310px] shrink-0">
+        <section className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-16 pb-28 md:pb-40 flex flex-col lg:flex-row gap-6 lg:gap-16 relative">
+          {/* ── Sticky Sidebar — hidden on mobile, lg+ only ─────────────── */}
+          <aside className="hidden lg:block lg:w-[280px] xl:w-[310px] shrink-0">
             <div className="lg:sticky lg:top-28 flex flex-col gap-2">
               <p className="font-label text-[9px] uppercase tracking-[0.3em] text-on-surface-variant/60 px-1 mb-3">
                 Service Categories

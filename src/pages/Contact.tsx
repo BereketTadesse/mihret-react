@@ -12,17 +12,17 @@ const contactDetails = [
 
 export default function Contact() {
   return (
-    <main className="min-h-screen pt-32 pb-40 px-6 max-w-7xl mx-auto font-body">
+    <main className="min-h-screen pt-24 md:pt-32 pb-32 md:pb-40 px-4 md:px-6 max-w-7xl mx-auto font-body">
 
       {/* Hero */}
-      <section className="mb-20">
+      <section className="mb-10 md:mb-20">
         <BlurText
           text="Studio Contact"
           delay={30} stepDuration={0.45} animateBy="letters" direction="top"
-          className="font-label text-primary tracking-[0.25em] uppercase text-xs font-bold mb-4 block"
+          className="font-label text-primary tracking-[0.25em] uppercase text-xs font-bold mb-3 md:mb-4 block"
         />
-        <div style={{ overflow: 'hidden' }} className="mb-4">
-          <h1 className="font-headline font-bold text-5xl md:text-7xl tracking-[-0.04em] text-on-surface flex flex-wrap gap-x-3 items-center">
+        <div style={{ overflow: 'hidden' }} className="mb-3 md:mb-4">
+          <h1 className="font-headline font-bold text-4xl md:text-5xl lg:text-7xl tracking-[-0.04em] text-on-surface flex flex-wrap gap-x-3 items-center">
             <BlurText text="GET IN" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
             <span className="text-primary">
               <BlurText text="TOUCH" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
@@ -32,26 +32,38 @@ export default function Contact() {
         <BlurText
           text="Elevate your cinematic vision. Our studio doors are open for auteurs, creators, and visionaries ready to redefine multimedia."
           delay={60} stepDuration={0.45} animateBy="words" direction="bottom"
-          className="font-body text-on-surface/60 text-lg md:text-xl max-w-xl leading-relaxed"
+          className="font-body text-on-surface/60 text-sm md:text-xl max-w-xl leading-relaxed"
         />
       </section>
 
+      {/* Quick contact chips — mobile only */}
+      <div className="flex gap-3 mb-8 md:hidden">
+        <a href="tel:+251902312888" className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 text-primary text-xs font-bold uppercase tracking-wider active:scale-95 transition-transform">
+          <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>call</span>
+          Call Us
+        </a>
+        <a href="mailto:mihretmultimedia@gmail.com" className="flex items-center gap-2 bg-surface-container-low border border-outline-variant/20 rounded-full px-4 py-2 text-on-surface-variant text-xs font-bold uppercase tracking-wider active:scale-95 transition-transform">
+          <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>mail</span>
+          Email
+        </a>
+      </div>
+
       {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 lg:gap-24 items-start">
 
         {/* Left — Contact Details */}
         <RevealOnScroll delay={0.1}>
-          <div className="space-y-12">
-            <div className="bg-surface-variant/40 backdrop-blur-2xl p-10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-outline-variant/15">
+          <div className="space-y-6 md:space-y-12">
+            <div className="bg-surface-variant/40 backdrop-blur-2xl p-5 md:p-10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-outline-variant/15">
               <StaggerChildren staggerDelay={0.1} containerDelay={0.05}>
                 {contactDetails.map((item) => (
-                  <motion.div key={item.label} variants={itemVariants} className="flex items-start gap-6 mb-10 last:mb-0">
-                    <div className="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg flex-shrink-0">
-                      <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                  <motion.div key={item.label} variants={itemVariants} className="flex items-start gap-4 md:gap-6 mb-6 md:mb-10 last:mb-0">
+                    <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-primary/10 rounded-lg flex-shrink-0">
+                      <span className="material-symbols-outlined text-primary text-lg md:text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
                     </div>
                     <div>
-                      <p className="font-label text-primary uppercase tracking-[0.1em] text-xs mb-1">{item.label}</p>
-                      <p className="text-xl font-headline font-semibold whitespace-pre-line">{item.value}</p>
+                      <p className="font-label text-primary uppercase tracking-[0.1em] text-[10px] md:text-xs mb-1">{item.label}</p>
+                      <p className="text-base md:text-xl font-headline font-semibold whitespace-pre-line">{item.value}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -72,8 +84,8 @@ export default function Contact() {
 
         {/* Right — Form */}
         <RevealOnScroll delay={0.2}>
-          <div className="bg-surface-variant/40 backdrop-blur-2xl p-10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-outline-variant/15">
-            <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+          <div className="bg-surface-variant/40 backdrop-blur-2xl p-5 md:p-10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-outline-variant/15">
+            <form className="space-y-6 md:space-y-8" onSubmit={(e) => e.preventDefault()}>
               {[
                 { label: 'Full Name', placeholder: 'John Doe', type: 'text' },
                 { label: 'Email Address', placeholder: 'john@multimedia.com', type: 'email' },
@@ -87,7 +99,7 @@ export default function Contact() {
                 >
                   <label className="font-label text-xs uppercase tracking-[0.2em] text-on-surface/50">{field.label}</label>
                   <input
-                    className="w-full bg-transparent border-b-2 border-outline-variant/20 focus:border-primary transition-colors py-3 px-0 font-headline text-lg placeholder:text-on-surface/20 outline-none"
+                    className="w-full bg-transparent border-b-2 border-outline-variant/20 focus:border-primary transition-colors py-2.5 md:py-3 px-0 font-headline text-base md:text-lg placeholder:text-on-surface/20 outline-none"
                     placeholder={field.placeholder}
                     type={field.type}
                   />
@@ -101,13 +113,13 @@ export default function Contact() {
               >
                 <label className="font-label text-xs uppercase tracking-[0.2em] text-on-surface/50">Message</label>
                 <textarea
-                  className="w-full bg-transparent border-b-2 border-outline-variant/20 focus:border-primary transition-colors py-3 px-0 font-headline text-lg placeholder:text-on-surface/20 resize-none outline-none"
+                  className="w-full bg-transparent border-b-2 border-outline-variant/20 focus:border-primary transition-colors py-2.5 md:py-3 px-0 font-headline text-base md:text-lg placeholder:text-on-surface/20 resize-none outline-none"
                   placeholder="Briefly describe your production or project..."
                   rows={4}
                 />
               </motion.div>
               <motion.button
-                className="shimmer-effect w-full py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary-fixed font-headline font-bold uppercase tracking-widest text-sm rounded-sm shadow-[0_10px_30px_rgba(242,202,80,0.2)]"
+                className="shimmer-effect w-full py-4 md:py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary-fixed font-headline font-bold uppercase tracking-widest text-sm rounded-sm shadow-[0_10px_30px_rgba(242,202,80,0.2)]"
                 type="submit"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}

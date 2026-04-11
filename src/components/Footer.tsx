@@ -1,20 +1,20 @@
 export default function Footer() {
   return (
-    <footer className="relative bg-surface-container-lowest pt-32 pb-12 overflow-hidden border-t border-outline-variant/10 transition-colors duration-300">
+    <footer className="relative bg-surface-container-lowest pt-16 md:pt-32 pb-12 overflow-hidden border-t border-outline-variant/10 transition-colors duration-300">
       {/* Background Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(201,75,28,0.1),transparent_50%)]" />
       
       <div className="max-w-7xl mx-auto px-6 md:px-16 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-20 text-center md:text-left">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12 mb-10 md:mb-20 text-center md:text-left">
           <div className="max-w-md">
-            <h2 className="text-5xl md:text-6xl font-black tracking-[-0.04em] text-on-surface font-headline uppercase mb-4">MIHRET<span className="text-primary">.</span></h2>
-            <p className="text-on-surface-variant font-body leading-relaxed">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-[-0.04em] text-on-surface font-headline uppercase mb-3 md:mb-4">MIHRET<span className="text-primary">.</span></h2>
+            <p className="text-on-surface-variant font-body leading-relaxed text-sm md:text-base">
               Engineering emotion through precision and light. Based in Addis Ababa, operating worldwide.
             </p>
           </div>
           
           {/* Social Icons Strip */}
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-6">
             {[
               { 
                 name: 'Instagram', 

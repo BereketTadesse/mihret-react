@@ -38,10 +38,8 @@ export default function Navbar() {
         <Link className={getLinkClass('/about')} to="/about">OUR TEAM</Link>
         <Link className={getLinkClass('/contact')} to="/contact">CONTACT</Link>
       </nav>
-      <div className="flex items-center gap-4">
-        <div className="hidden md:block">
-          <ThemeToggle />
-        </div>
+      <div className="flex items-center gap-3">
+        <ThemeToggle />
       </div>
     </header>
   );
