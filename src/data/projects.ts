@@ -184,7 +184,186 @@ export const CATEGORIES: Category[] = [
     serviceImage: '/services/Event orginizing and production.png',
     serviceDescription:
       'We plan, manage, and execute events from concept to completion, delivering seamless experiences through creative design, professional coordination, and high-quality production services.',
-    projects: [],
+    projects: [
+      {
+        id: 8,
+        slug: 'grand-abronet-award',
+        title: 'Grand Abronet Award',
+        type: 'Event Production, Live Streaming & Marketing',
+        client: 'Abronet PLC',
+        crew: 'Mihret Multimedia',
+        description: 'A large-scale event held at Millennium Hall with over 26 media outlets, government officials, influencers, and artists.',
+        fullDescription: 'A large-scale event held at Millennium Hall with over 26 media outlets, government officials, influencers, artists, and multiple sponsoring organizations. Mihret Multimedia managed all aspects including planning, sponsorship, design, production, and live streaming.',
+        images: [
+          '/Event%20Production%20&%20Management/3.1A.png',
+          '/Event%20Production%20&%20Management/3.1%20B.png',
+          '/Event%20Production%20&%20Management/3.1%20C.png',
+          '/Event%20Production%20&%20Management/3.1%20D.png'
+        ],
+        featured: true,
+        year: '2023',
+        location: 'Millennium Hall'
+      },
+      {
+        id: 9,
+        slug: 'efea-launching-event',
+        title: 'EFEA Launching Event',
+        type: 'Event Organization & Promotion',
+        client: 'Ethiopian Food Engineering Association',
+        crew: 'Organizer: Yonatan Worku | Promoter: Yegena Lijoch',
+        description: 'A historic launch event held at Capital Hotel marking the establishment of the association.',
+        fullDescription: 'A historic launch event held at Capital Hotel marking the establishment of the association.',
+        images: [
+          '/Event%20Production%20&%20Management/3.2%20C.png',
+          '/Event%20Production%20&%20Management/3.2%20D.png'
+        ],
+        featured: false,
+        year: '2023',
+        location: 'Capital Hotel'
+      },
+      {
+        id: 10,
+        slug: 'adabay-project-assembly',
+        title: 'Adabay Project Assembly',
+        type: 'Event Production',
+        client: 'Adabay Food Consultancy',
+        crew: 'Mihret Multimedia',
+        description: 'A professional panel discussion and presentation event between Hayat Ltd and Adabay Food Consultancy.',
+        fullDescription: 'A professional panel discussion and presentation event between Hayat Ltd and Adabay Food Consultancy.',
+        images: [
+          '/Event%20Production%20&%20Management/3.3%20A.png'
+        ],
+        featured: false,
+        year: '2023'
+      },
+      {
+        id: 11,
+        slug: 'grand-graduation-ceremony',
+        title: 'Grand Graduation Ceremony',
+        type: 'Event Production',
+        client: 'AMI Makeup Academy',
+        crew: 'Mihret Multimedia',
+        description: 'A well-organized graduation ceremony for academy students.',
+        fullDescription: 'A well-organized graduation ceremony for academy students.',
+        images: [
+          '/Event%20Production%20&%20Management/3.4%20A.png',
+          '/Event%20Production%20&%20Management/3.4%20B.png',
+          '/Event%20Production%20&%20Management/3.4%20C.png',
+          '/Event%20Production%20&%20Management/3.4%20D.png'
+        ],
+        featured: false,
+        year: '2023'
+      },
+      {
+        id: 12,
+        slug: 'abronet-saccos-opening',
+        title: 'Abronet SACCOs Opening General Assembly',
+        type: 'Event Organization & Production',
+        client: 'Abronet SACCOs',
+        crew: 'Mihret Multimedia',
+        description: 'A grand opening ceremony including design, printing, and full event production.',
+        fullDescription: 'A grand opening ceremony including design, printing, and full event production.',
+        images: [
+          '/Event%20Production%20&%20Management/3.5%20A.png'
+        ],
+        featured: false,
+        year: '2023'
+      },
+      {
+        id: 13,
+        slug: 'kanfire-trading-meeting',
+        title: 'Kanfire Trading Meeting',
+        type: 'Event Production',
+        client: 'Kanfire Trading PLC',
+        crew: 'Mihret Multimedia',
+        description: 'A professionally produced event meeting for Kanfire Trading PLC.',
+        fullDescription: 'A professionally produced event meeting for Kanfire Trading PLC.',
+        images: [
+          '/Event%20Production%20&%20Management/3.6%20A.png'
+        ],
+        featured: false,
+        year: '2023'
+      },
+      {
+        id: 14,
+        slug: 'gojo-masterclass',
+        title: 'Gojo Masterclass',
+        type: 'Event Production',
+        client: 'Gojo Casting',
+        crew: 'Feleke Abebe Yemarweha',
+        description: 'A one-day masterclass conducted by artist Feleke Abebe Yemarweha.',
+        fullDescription: 'A one-day masterclass conducted by artist Feleke Abebe Yemarweha.',
+        images: [
+          '/Event%20Production%20&%20Management/3.7%20A.png',
+          '/Event%20Production%20&%20Management/3.7%20B.png'
+        ],
+        featured: false,
+        year: '2023'
+      },
+      {
+        id: 15,
+        slug: 'book-launching-event',
+        title: 'Book Launching Event',
+        type: 'Event Production',
+        client: 'Satela Show',
+        crew: 'Mihret Multimedia',
+        description: 'A grand book launch event held at Walia Books Hall.',
+        fullDescription: 'A grand book launch event held at Walia Books Hall.',
+        images: [
+          '/Event%20Production%20&%20Management/3.8%20A.png',
+          '/Event%20Production%20&%20Management/3.8%20B.png'
+        ],
+        featured: false,
+        location: 'Walia Books Hall'
+      },
+      {
+        id: 16,
+        slug: 'tsedey-radio-anniversary',
+        title: 'Tsedey Radio 2nd Anniversary',
+        type: 'Event Production',
+        client: 'Tsedey Radio',
+        crew: 'Mihret Multimedia',
+        description: 'Anniversary celebration held at Magnolia Hotel.',
+        fullDescription: 'Anniversary celebration held at Magnolia Hotel.',
+        images: [
+          '/Event%20Production%20&%20Management/3.9%20A.png',
+          '/Event%20Production%20&%20Management/3.9%20B.png'
+        ],
+        featured: false,
+        location: 'Magnolia Hotel'
+      },
+      {
+        id: 17,
+        slug: 'african-womens-conference',
+        title: 'African Women’s Conference 2023',
+        type: 'Event Production',
+        client: 'Satela Charitable Organization',
+        crew: 'Host: Etenesh Tefera',
+        description: 'A one-day international conference at Sheraton Addis Hotel with participants from across Africa.',
+        fullDescription: 'A one-day international conference at Sheraton Addis Hotel with participants from across Africa.',
+        images: [
+          '/Event%20Production%20&%20Management/3.10.png'
+        ],
+        featured: false,
+        year: '2023',
+        location: 'Sheraton Addis Hotel'
+      },
+      {
+        id: 18,
+        slug: 'enku-set-event',
+        title: 'Enku Set Event',
+        type: 'Event Production',
+        client: 'Enku Set & Satela Charitable Organization',
+        crew: 'Mihret Multimedia',
+        description: 'An elegantly produced event for Enku Set & Satela Charitable Organization.',
+        fullDescription: 'An elegantly produced event for Enku Set & Satela Charitable Organization.',
+        images: [
+          '/Event%20Production%20&%20Management/3.11%20A.png'
+        ],
+        featured: false,
+        year: '2023'
+      }
+    ],
   },
   {
     id: 'tv-commercials',
