@@ -49,14 +49,14 @@ export default function Services() {
             className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-surface-container-low shadow-2xl"
             whileHover={{ y: -6, boxShadow: '0 36px 60px rgba(0,0,0,0.28)' }}
             transition={{ type: 'spring', stiffness: 260, damping: 22 }}>
-            <div className="absolute inset-0 z-0 scale-110 transition-transform duration-700 group-hover:scale-100 opacity-60">
+            <div className="absolute inset-0 z-0 scale-110 transition-transform duration-700 group-hover:scale-100 opacity-100">
               <img className="w-full h-full object-cover" alt={svc.alt} src={svc.img} />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
             <div className="absolute inset-0 z-20 p-8 flex flex-col justify-end backdrop-blur-[2px] border border-outline-variant/10 group-hover:backdrop-blur-none transition-all">
               <span className="material-symbols-outlined text-primary mb-4 text-4xl">{svc.icon}</span>
-              <h3 className="font-headline text-3xl font-bold text-on-surface mb-2">{svc.title}</h3>
-              <p className="text-on-surface/70 text-sm leading-relaxed mb-6">{svc.body}</p>
+              <h3 className="font-headline text-3xl font-bold text-white mb-2">{svc.title}</h3>
+              <p className="text-white/80 text-sm leading-relaxed mb-6">{svc.body}</p>
               <div className="w-12 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
             </div>
           </motion.div>
