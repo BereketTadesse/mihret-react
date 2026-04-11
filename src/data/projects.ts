@@ -570,7 +570,8 @@ export const CATEGORIES: Category[] = [
           '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20A%20(1).jpg',
           '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20B.jpg',
           '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20C.png',
-          '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20D.jpg'
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20D.jpg',
+          '/Digital%20Marketing,%20Web%20&%20Branding/4.6%20E.jpg'
         ],
         featured: false
       }
