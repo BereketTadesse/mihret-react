@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { findProject, CATEGORIES } from '../data/projects';
+import { findProject } from '../data/projects';
 import RevealOnScroll from '../components/animations/RevealOnScroll';
 import BlurText from '../components/animations/BlurText';
 
