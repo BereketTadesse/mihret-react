@@ -1,4 +1,4 @@
-import { useState, type PointerEvent } from 'react';
+import { useState, useEffect, useRef, type PointerEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import RevealOnScroll from '../components/animations/RevealOnScroll';
@@ -9,8 +9,49 @@ import { CATEGORIES } from '../data/projects';
 
 export default function Home() {
   const navigate = useNavigate();
-  const [isShowreelOpen, setIsShowreelOpen] = useState(false);
-  
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playerRef = useRef<any>(null);
+
+  // Load YouTube IFrame API and create player when video starts
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const initPlayer = () => {
+      playerRef.current = new (window as any).YT.Player('yt-player', {
+        videoId: YOUTUBE_ID,
+        playerVars: { autoplay: 1, rel: 0, modestbranding: 1 },
+        events: {
+          onStateChange: (event: any) => {
+            // YT.PlayerState.ENDED === 0
+            if (event.data === 0) {
+              setIsPlaying(false);
+            }
+          },
+        },
+      });
+    };
+
+    if ((window as any).YT && (window as any).YT.Player) {
+      initPlayer();
+    } else {
+      // Script not loaded yet — inject it
+      if (!document.getElementById('yt-api-script')) {
+        const tag = document.createElement('script');
+        tag.id = 'yt-api-script';
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+      }
+      (window as any).onYouTubeIframeAPIReady = initPlayer;
+    }
+
+    return () => {
+      // Destroy player on cleanup to avoid memory leaks
+      if (playerRef.current?.destroy) {
+        playerRef.current.destroy();
+        playerRef.current = null;
+      }
+    };
+  }, [isPlaying]);
   const allProjects = CATEGORIES.flatMap(c => c.projects.map(p => ({ ...p, categoryId: c.id })));
   const homeFeatured = allProjects.filter(p => p.featured);
   const displayProjects = homeFeatured.length >= 3 ? homeFeatured.slice(0, 3) : allProjects.slice(0, 3);
@@ -64,34 +105,11 @@ export default function Home() {
     { name: 'TDS Multimedia', logo: '/logo/TDS Multimedia.png' },
     { name: 'Tsedey Radio', logo: '/logo/Tsedey Radio.png' },
   ];
-  const showreelVideo = '/showreel.mp4';
+  const YOUTUBE_ID = '164sB-7WE4w';
 
   return (
     <>
-      {isShowreelOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 px-4 py-8">
-          <button
-            type="button"
-            aria-label="Close showreel"
-            className="absolute right-4 top-4 md:right-8 md:top-8 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white transition-colors hover:border-primary/60 hover:text-primary"
-            onClick={() => setIsShowreelOpen(false)}
-          >
-            <span className="material-symbols-outlined">close</span>
-          </button>
 
-          <div className="w-full max-w-6xl overflow-hidden rounded-xl border border-white/10 bg-black shadow-2xl">
-            <video
-              className="aspect-video w-full bg-black"
-              src={showreelVideo}
-              controls
-              autoPlay
-              playsInline
-            >
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      )}
 
       {/* ── Hero Section ─────────────────────────────────────────────── */}
       <main className="relative min-h-screen w-full flex items-center justify-start overflow-hidden pt-24 pb-20 md:pt-32 md:pb-28">
@@ -139,7 +157,7 @@ export default function Home() {
             <motion.button
               type="button"
               className="shimmer-btn group relative px-6 md:px-10 py-3.5 md:py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold tracking-widest uppercase text-xs md:text-sm flex items-center gap-2 md:gap-3"
-              onClick={() => setIsShowreelOpen(true)}
+              onClick={() => { const el = document.getElementById('showreel-embed'); el?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -243,44 +261,60 @@ export default function Home() {
       <section className="bg-surface px-8 py-12 md:px-24 md:py-16 font-body">
         <RevealOnScroll scale={0.97} duration={0.65}>
           <div className="mx-auto max-w-7xl">
-            <motion.button
-              type="button"
-              className="group relative block w-full overflow-hidden rounded-[2rem] border border-outline-variant/20 bg-[#16130f] text-left shadow-[0_30px_90px_rgba(0,0,0,0.28)]"
-              onClick={() => setIsShowreelOpen(true)}
-              whileHover={{ scale: 1.008 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+            {/* Section label */}
+            <div className="mb-6 flex items-center gap-4">
+              <span className="font-label text-[10px] uppercase tracking-[0.3em] text-primary">Our Showreel</span>
+              <div className="h-px flex-1 bg-gradient-to-r from-primary/30 to-transparent" />
+            </div>
+            {/* Click-to-play embed */}
+            <div
+              id="showreel-embed"
+              className="relative w-full overflow-hidden rounded-[2rem] border border-outline-variant/20 bg-[#16130f] shadow-[0_30px_90px_rgba(0,0,0,0.40)]"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_30%),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0.68))]" />
-              <div className="absolute inset-y-0 left-0 w-[18%] bg-gradient-to-r from-black/80 via-black/45 to-transparent" />
-              <div className="absolute inset-y-0 right-0 w-[18%] bg-gradient-to-l from-black/80 via-black/45 to-transparent" />
-              <div className="absolute inset-y-[8%] left-[7%] w-[12%] rounded-t-[999px] border border-white/8 bg-gradient-to-b from-white/10 via-black/35 to-black/55 shadow-[inset_0_0_35px_rgba(255,255,255,0.05)]" />
-              <div className="absolute inset-y-[8%] right-[7%] w-[12%] rounded-t-[999px] border border-white/8 bg-gradient-to-b from-white/10 via-black/35 to-black/55 shadow-[inset_0_0_35px_rgba(255,255,255,0.05)]" />
-              <img
-                className="h-[380px] w-full object-cover opacity-75 transition-transform duration-700 group-hover:scale-105 md:h-[520px]"
-                alt="Showreel preview backdrop"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1MV9_BDpmlUDBBUrqh-nrIhSLvn4F_FejVP0cwj7KIe0bqKr24vB9w0wmGnGvtjcXt1_saY7FRsWLLgOuRuWa_lyNR_SuzfRRcPzxmm5l_G6QyPfZDf-pV09ll3BbAXq2QxDiaEqOHU2AlhrGwAdg8KYXxC7ixnv0pMbw3gKK7LJ8euMRgLlF1XVuy4euuPkxmJlQn2ps-WzL9iL6Ck8kXpqhxvPQNuFpN2Delo77OAs4vOkLeaB8k2_4UuozIEF1hF39C1sxvQe9"
-              />
-              <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-                <motion.div
-                  className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#f3c856]/40 bg-[#f3c856]/12 text-[#f3c856] shadow-[0_0_35px_rgba(243,200,86,0.16)]"
-                  whileHover={{ scale: 1.15 }}
-                  transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+              {isPlaying ? (
+                <div className="aspect-video w-full bg-black">
+                  <div id="yt-player" className="w-full h-full" />
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  aria-label="Play showreel"
+                  className="group relative block w-full overflow-hidden text-left"
+                  onClick={() => setIsPlaying(true)}
                 >
-                  <span className="material-symbols-outlined text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                    play_arrow
-                  </span>
-                </motion.div>
-                <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-black/25 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.32em] text-primary">
-                  Available Now
-                </span>
-                <h2 className="max-w-4xl text-4xl font-black uppercase tracking-[-0.06em] text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.55)] sm:text-5xl md:text-7xl">
-                  THE SHOWREEL
-                </h2>
-                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
-                  A quick look into Mihret Multimedia&apos;s cinematic direction, production energy, and visual storytelling.
-                </p>
-              </div>
-            </motion.button>
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_30%),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0.68))] z-10" />
+                  <div className="absolute inset-y-0 left-0 w-[18%] bg-gradient-to-r from-black/80 via-black/45 to-transparent z-10" />
+                  <div className="absolute inset-y-0 right-0 w-[18%] bg-gradient-to-l from-black/80 via-black/45 to-transparent z-10" />
+                  <div className="absolute inset-y-[8%] left-[7%] w-[12%] rounded-t-[999px] border border-white/8 bg-gradient-to-b from-white/10 via-black/35 to-black/55 shadow-[inset_0_0_35px_rgba(255,255,255,0.05)] z-10" />
+                  <div className="absolute inset-y-[8%] right-[7%] w-[12%] rounded-t-[999px] border border-white/8 bg-gradient-to-b from-white/10 via-black/35 to-black/55 shadow-[inset_0_0_35px_rgba(255,255,255,0.05)] z-10" />
+                  <img
+                    className="h-[380px] w-full object-cover opacity-75 transition-transform duration-700 group-hover:scale-105 md:h-[520px]"
+                    alt="Showreel preview backdrop"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1MV9_BDpmlUDBBUrqh-nrIhSLvn4F_FejVP0cwj7KIe0bqKr24vB9w0wmGnGvtjcXt1_saY7FRsWLLgOuRuWa_lyNR_SuzfRRcPzxmm5l_G6QyPfZDf-pV09ll3BbAXq2QxDiaEqOHU2AlhrGwAdg8KYXxC7ixnv0pMbw3gKK7LJ8euMRgLlF1XVuy4euuPkxmJlQn2ps-WzL9iL6Ck8kXpqhxvPQNuFpN2Delo77OAs4vOkLeaB8k2_4UuozIEF1hF39C1sxvQe9"
+                  />
+                  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center">
+                    <motion.div
+                      className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#f3c856]/40 bg-[#f3c856]/12 text-[#f3c856] shadow-[0_0_35px_rgba(243,200,86,0.16)] group-hover:bg-[#f3c856]/25 transition-colors duration-300"
+                      whileHover={{ scale: 1.15 }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 18 }}
+                    >
+                      <span className="material-symbols-outlined text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        play_arrow
+                      </span>
+                    </motion.div>
+                    <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-black/25 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.32em] text-primary">
+                      Available Now
+                    </span>
+                    <h2 className="max-w-4xl text-4xl font-black uppercase tracking-[-0.06em] text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.55)] sm:text-5xl md:text-7xl">
+                      THE SHOWREEL
+                    </h2>
+                    <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
+                      A quick look into Mihret Multimedia&apos;s cinematic direction, production energy, and visual storytelling.
+                    </p>
+                  </div>
+                </button>
+              )}
+            </div>
           </div>
         </RevealOnScroll>
       </section>
@@ -432,7 +466,7 @@ export default function Home() {
             <StaggerChildren staggerDelay={0.1} containerDelay={0.1}>
               {[
                 { icon: 'theaters', title: 'Post-Production', body: 'High-end color grading, visual effects, and sound design tailored for cinematic delivery.' },
-                { icon: 'camera_roll', title: 'Cinematography', body: 'World-class lighting and camera work using industry-leading 8K equipment.' },
+                { icon: 'camera_roll', title: 'Cinematography', body: 'World-class lighting and camera work using industry-leading equipment.' },
                 { icon: 'groups', title: 'Direction', body: 'Visionary leadership that transforms scripts into visceral on-screen experiences.' },
               ].map((service) => (
                 <motion.div key={service.title} variants={iv} className="flex gap-8 group mb-12 last:mb-0">
