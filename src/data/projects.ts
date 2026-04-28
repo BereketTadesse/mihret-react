@@ -128,8 +128,9 @@ export const CATEGORIES: Category[] = [
         fullDescription:
           'Nikodimos is a short film produced for Fire Haymanot Media, drawing its narrative from a well-known biblical account. Shot on location at Petros and Pawlos Church, the production blends reverence with cinematic storytelling — using natural light, careful composition, and a deeply felt performance to bring the story to life. The film was received warmly by faith communities and cinephiles alike.',
         images: [
-          '/Movies%20&%20Documentaries/1.5%20A.png',
-          '/Movies%20&%20Documentaries/1.5%20B.png',
+          '/Movies%20&%20Documentaries/1.8A.png',
+          '/Movies%20&%20Documentaries/1.8B.png',
+          '/Movies%20&%20Documentaries/1.8%20C.png',
         ],
         featured: false,
         year: '2023',
@@ -453,7 +454,7 @@ export const CATEGORIES: Category[] = [
           '/Portraits/5.1%20D.png',
           '/Portraits/5.1%20E.png'
         ],
-        featured: true
+        featured: false
       },
       {
         id: 29,
@@ -472,6 +473,29 @@ export const CATEGORIES: Category[] = [
           '/Portraits/5.2%20E.png'
         ],
         featured: false
+      },
+      {
+        id: 30,
+        slug: 'wedding-photography',
+        title: 'Wedding Photography',
+        type: 'Wedding Photography',
+        client: 'Various Couples',
+        crew: 'Photographer: Yonatan Worku',
+        description:
+          'Timeless wedding photography that captures every heartfelt moment — from the ceremony to the celebration.',
+        fullDescription:
+          'At Mihret Multimedia, we bring a cinematic and deeply personal approach to wedding photography. We specialize in capturing every precious moment of your special day — the quiet glances, the joyful tears, the grand celebrations — weaving them into a timeless visual story you will cherish forever. Our team works seamlessly in the background, ensuring natural, unposed moments are preserved alongside beautifully composed portraits. From intimate traditional ceremonies to large-scale receptions, we deliver stunning images that reflect the love, culture, and emotion of your wedding day.',
+        images: [
+          '/Portraits/PORTRAITS%201.png',
+          '/Portraits/PORTRAITS%202.png',
+          '/Portraits/PORTRAITS%204.png',
+          '/Portraits/PORTRAITS%205.png',
+          '/Portraits/PORTRAITS%206.png',
+          '/Portraits/PORTRAITS%207.png',
+        ],
+        featured: true,
+        year: '2023',
+        location: 'Addis Ababa, Ethiopia',
       }
     ],
   },

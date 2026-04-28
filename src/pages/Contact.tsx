@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import RevealOnScroll from '../components/animations/RevealOnScroll';
 import StaggerChildren from '../components/animations/StaggerChildren';
 import BlurText from '../components/animations/BlurText';
@@ -11,6 +12,43 @@ const contactDetails = [
 ];
 
 export default function Contact() {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/Mihretmultimedia005@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: "New Contact Form Submission from Mihret Multimedia",
+        })
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <main className="min-h-screen pt-24 md:pt-32 pb-32 md:pb-40 px-4 md:px-6 max-w-7xl mx-auto font-body">
 
@@ -85,10 +123,10 @@ export default function Contact() {
         {/* Right — Form */}
         <RevealOnScroll delay={0.2}>
           <div className="bg-surface-variant/40 backdrop-blur-2xl p-5 md:p-10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-outline-variant/15">
-            <form className="space-y-6 md:space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit}>
               {[
-                { label: 'Full Name', placeholder: 'John Doe', type: 'text' },
-                { label: 'Email Address', placeholder: 'john@multimedia.com', type: 'email' },
+                { label: 'Full Name', placeholder: 'John Doe', type: 'text', name: 'name' as const },
+                { label: 'Email Address', placeholder: 'john@multimedia.com', type: 'email', name: 'email' as const },
               ].map((field, i) => (
                 <motion.div
                   key={field.label}
@@ -102,6 +140,9 @@ export default function Contact() {
                     className="w-full bg-transparent border-b-2 border-outline-variant/20 focus:border-primary transition-colors py-2.5 md:py-3 px-0 font-headline text-base md:text-lg placeholder:text-on-surface/20 outline-none"
                     placeholder={field.placeholder}
                     type={field.type}
+                    value={formData[field.name]}
+                    onChange={(e) => setFormData(prev => ({ ...prev, [field.name]: e.target.value }))}
+                    required
                   />
                 </motion.div>
               ))}
@@ -116,18 +157,40 @@ export default function Contact() {
                   className="w-full bg-transparent border-b-2 border-outline-variant/20 focus:border-primary transition-colors py-2.5 md:py-3 px-0 font-headline text-base md:text-lg placeholder:text-on-surface/20 resize-none outline-none"
                   placeholder="Briefly describe your production or project..."
                   rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                  required
                 />
               </motion.div>
+
+              {submitStatus === 'success' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                  className="text-[#4ade80] text-sm text-center font-body bg-[#4ade80]/10 py-3 rounded-md border border-[#4ade80]/20"
+                >
+                  Message sent successfully! We will get back to you soon.
+                </motion.div>
+              )}
+              {submitStatus === 'error' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                  className="text-[#f87171] text-sm text-center font-body bg-[#f87171]/10 py-3 rounded-md border border-[#f87171]/20"
+                >
+                  Failed to send message. Please try again or use direct contact methods.
+                </motion.div>
+              )}
+
               <motion.button
-                className="shimmer-effect w-full py-4 md:py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary-fixed font-headline font-bold uppercase tracking-widest text-sm rounded-sm shadow-[0_10px_30px_rgba(242,202,80,0.2)]"
+                className="shimmer-effect w-full py-4 md:py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary-fixed font-headline font-bold uppercase tracking-widest text-sm rounded-sm shadow-[0_10px_30px_rgba(242,202,80,0.2)] disabled:opacity-70 disabled:cursor-not-allowed"
                 type="submit"
+                disabled={isSubmitting}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: 0.88, ease: [0.25, 0.1, 0.25, 1] }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={isSubmitting ? {} : { scale: 1.02 }}
+                whileTap={isSubmitting ? {} : { scale: 0.97 }}
               >
-                Initialize Project
+                {isSubmitting ? 'Sending...' : 'Initialize Project'}
               </motion.button>
             </form>
           </div>
