@@ -127,7 +127,7 @@ export default function Home() {
 
           {/* Hero heading — blur reveal */}
           <div style={{ overflow: 'hidden' }} className="mb-4 md:mb-6">
-            <h2 className="text-[2.15rem] xs:text-4xl sm:text-5xl md:text-[4.25rem] lg:text-[5.5rem] xl:text-[6rem] font-black tracking-tighter leading-[0.9] font-headline uppercase flex flex-col gap-0.5 sm:gap-2 items-start">
+            <h2 className="text-[2.15rem] xs:text-4xl sm:text-5xl md:text-[4.25rem] lg:text-[5.5rem] xl:text-[6rem] font-black tracking-tight md:tracking-tighter leading-[0.9] font-headline uppercase flex flex-col gap-0.5 sm:gap-2 items-start">
               <BlurText text="MIHRET" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
               <span className="text-primary">
                 <BlurText text="MULTIMEDIA" delay={180} stepDuration={0.45} animateBy="words" direction="top" />
@@ -227,7 +227,7 @@ export default function Home() {
             </div>
 
             <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-primary/0 transition-colors duration-500 group-hover:border-primary/20 group-active:border-primary/20" />
-            <h3 className="font-headline text-4xl font-black uppercase tracking-[-0.05em] text-primary sm:text-5xl md:text-6xl">
+            <h3 className="font-headline text-4xl font-black uppercase tracking-tight md:tracking-[-0.05em] text-primary sm:text-5xl md:text-6xl">
               WHO WE ARE
             </h3>
 
@@ -247,7 +247,7 @@ export default function Home() {
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <span className="rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
-                Est. 2012
+                Est. 2015
               </span>
               <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-on-surface/75">
                 Addis Ababa, Ethiopia
@@ -324,7 +324,7 @@ export default function Home() {
         <RevealOnScroll className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="space-y-4">
             <span className="label-md tracking-widest text-primary uppercase font-bold text-xs">LATEST PRODUCTIONS</span>
-            <h3 className="text-4xl md:text-6xl font-black tracking-tighter font-headline uppercase">FEATURED WORKS</h3>
+            <h3 className="text-4xl md:text-6xl font-black tracking-tight md:tracking-tighter font-headline uppercase">FEATURED WORKS</h3>
           </div>
           <p className="text-on-surface-variant max-w-sm text-right font-medium">
             Our portfolio spans commercial high-fashion, narrative features, and documentary storytelling.
@@ -404,7 +404,7 @@ export default function Home() {
           <RevealOnScroll className="mb-14 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="space-y-4">
               <span className="label-md tracking-widest text-primary uppercase font-bold text-xs">Trusted By</span>
-              <h3 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter font-headline uppercase">
+              <h3 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight md:tracking-tighter font-headline uppercase">
                 OUR <span className="text-primary">CLIENTS</span>
               </h3>
             </div>
@@ -454,7 +454,7 @@ export default function Home() {
             <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 blur-[100px]"></div>
             <div style={{ overflow: 'hidden' }} className="mb-12">
               <motion.h3
-                className="text-5xl md:text-7xl font-black tracking-tighter font-headline uppercase leading-none"
+                className="text-5xl md:text-7xl font-black tracking-tight md:tracking-tighter font-headline uppercase leading-none"
                 initial={{ y: '105%', opacity: 0 }}
                 whileInView={{ y: '0%', opacity: 1 }}
                 viewport={{ once: true, margin: '-10% 0px' }}

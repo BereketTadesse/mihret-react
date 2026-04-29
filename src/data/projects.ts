@@ -56,7 +56,7 @@ export const CATEGORIES: Category[] = [
           '/Movies%20&%20Documentaries/1.1%20B.png',
         ],
         featured: true,
-        year: '2023',
+        year: '2025',
         location: 'Addis Ababa, Ethiopia',
       },
       {
@@ -75,7 +75,7 @@ export const CATEGORIES: Category[] = [
           '/Movies%20&%20Documentaries/1.2%20B.png',
         ],
         featured: false,
-        year: '2023',
+        year: '2025',
         location: 'Addis Ababa, Ethiopia',
       },
       {
@@ -94,7 +94,7 @@ export const CATEGORIES: Category[] = [
           '/Movies%20&%20Documentaries/1.3%20B.png',
         ],
         featured: false,
-        year: '2023',
+        year: '2025',
         location: 'Ethiopia',
       },
       {
@@ -113,7 +113,7 @@ export const CATEGORIES: Category[] = [
           '/Movies%20&%20Documentaries/1.5%20C.png',
         ],
         featured: false,
-        year: '2023',
+        year: '2025',
         location: 'Addis Ababa, Ethiopia',
       },
       {
@@ -133,7 +133,7 @@ export const CATEGORIES: Category[] = [
           '/Movies%20&%20Documentaries/1.8%20C.png',
         ],
         featured: false,
-        year: '2023',
+        year: '2025',
         location: 'Ethiopia',
       },
       {
@@ -152,7 +152,7 @@ export const CATEGORIES: Category[] = [
           '/Movies%20&%20Documentaries/1.6%20B.png',
         ],
         featured: false,
-        year: '2023',
+        year: '2025',
         location: 'Addis Ababa, Ethiopia',
       },
       {
@@ -171,7 +171,7 @@ export const CATEGORIES: Category[] = [
           '/Movies%20&%20Documentaries/1.7%20C.png',
         ],
         featured: false,
-        year: '2023',
+        year: '2025',
         location: 'Dire Dawa, Ethiopia',
       },
     ],
@@ -202,7 +202,7 @@ export const CATEGORIES: Category[] = [
           '/Event%20Production%20&%20Management/3.1%20D.png'
         ],
         featured: true,
-        year: '2023',
+        year: '2025',
         location: 'Millennium Hall'
       },
       {
@@ -219,7 +219,7 @@ export const CATEGORIES: Category[] = [
           '/Event%20Production%20&%20Management/3.2%20D.png'
         ],
         featured: false,
-        year: '2023',
+        year: '2025',
         location: 'Capital Hotel'
       },
       {
@@ -235,7 +235,7 @@ export const CATEGORIES: Category[] = [
           '/Event%20Production%20&%20Management/3.3%20A.png'
         ],
         featured: false,
-        year: '2023'
+        year: '2025'
       },
       {
         id: 11,
@@ -253,7 +253,7 @@ export const CATEGORIES: Category[] = [
           '/Event%20Production%20&%20Management/3.4%20D.png'
         ],
         featured: false,
-        year: '2023'
+        year: '2025'
       },
       {
         id: 12,
@@ -268,7 +268,7 @@ export const CATEGORIES: Category[] = [
           '/Event%20Production%20&%20Management/3.5%20A.png'
         ],
         featured: false,
-        year: '2023'
+        year: '2025'
       },
       {
         id: 13,
@@ -283,7 +283,7 @@ export const CATEGORIES: Category[] = [
           '/Event%20Production%20&%20Management/3.6%20A.png'
         ],
         featured: false,
-        year: '2023'
+        year: '2025'
       },
       {
         id: 14,
@@ -299,7 +299,7 @@ export const CATEGORIES: Category[] = [
           '/Event%20Production%20&%20Management/3.7%20B.png'
         ],
         featured: false,
-        year: '2023'
+        year: '2025'
       },
       {
         id: 15,
@@ -346,7 +346,7 @@ export const CATEGORIES: Category[] = [
           '/Event%20Production%20&%20Management/3.10.png'
         ],
         featured: false,
-        year: '2023',
+        year: '2025',
         location: 'Sheraton Addis Hotel'
       },
       {
@@ -362,7 +362,7 @@ export const CATEGORIES: Category[] = [
           '/Event%20Production%20&%20Management/3.11%20A.png'
         ],
         featured: false,
-        year: '2023'
+        year: '2025'
       }
     ],
   },
@@ -494,7 +494,7 @@ export const CATEGORIES: Category[] = [
           '/Portraits/PORTRAITS%207.png',
         ],
         featured: true,
-        year: '2023',
+        year: '2026',
         location: 'Addis Ababa, Ethiopia',
       }
     ],
