@@ -9,16 +9,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check Secrets Presence
+        run: |
+          echo "Checking secret configuration..."
+          [ -n "${{ secrets.SSH_KEY }}" ] && echo "✓ SSH_KEY is present" || echo "✗ SSH_KEY is MISSING"
+          [ -n "${{ secrets.SSH_USERNAME || vars.SSH_USERNAME }}" ] && echo "✓ SSH_USERNAME is present" || echo "✗ SSH_USERNAME is MISSING"
+          [ -n "${{ secrets.SSH_HOST || vars.SSH_HOST }}" ] && echo "✓ SSH_HOST is present" || echo "ℹ Using default host: mihretmultimedia.com"
+
       - name: Execute Remote SSH Commands
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
+          host: ${{ secrets.SSH_HOST || vars.SSH_HOST || 'mihretmultimedia.com' }}
+          username: ${{ secrets.SSH_USERNAME || vars.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
+          port: ${{ secrets.SSH_PORT || vars.SSH_PORT || 22 }}
           script: |
             # Navigate to domain directory on Yegara server
-            cd /home/${{ secrets.SSH_USERNAME }}/mihretmultimedia.com
+            cd /home/${{ secrets.SSH_USERNAME || vars.SSH_USERNAME }}/mihretmultimedia.com
             
             # Pull latest changes from main branch
             git pull origin main
