@@ -5,37 +5,32 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  web-deploy:
+    name: Build & Deploy via FTP
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check Secrets Presence
-        run: |
-          echo "Checking secret configuration..."
-          [ -n "${{ secrets.SSH_KEY }}" ] && echo "✓ SSH_KEY is present" || echo "✗ SSH_KEY is MISSING"
-          [ -n "${{ secrets.SSH_USERNAME || vars.SSH_USERNAME }}" ] && echo "✓ SSH_USERNAME is present" || echo "✗ SSH_USERNAME is MISSING"
-          [ -n "${{ secrets.SSH_HOST || vars.SSH_HOST }}" ] && echo "✓ SSH_HOST is present" || echo "ℹ Using default host: mihretmultimedia.com"
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Execute Remote SSH Commands
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          host: ${{ secrets.SSH_HOST || vars.SSH_HOST || 'mihretmultimedia.com' }}
-          username: ${{ secrets.SSH_USERNAME || vars.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: 2222
-          script: |
-            # Navigate to domain directory on Yegara server
-            cd /home/${{ secrets.SSH_USERNAME || vars.SSH_USERNAME }}/mihretmultimedia.com
-            
-            # Pull latest changes from main branch
-            git pull origin main
-            
-            # Install dependencies (Vite & TypeScript are needed to build)
-            npm ci
-            
-            # Build application (React / Vite / TypeScript)
-            npm run build --if-present
-            
-            # Restart application process / reload Phusion Passenger
-            mkdir -p tmp
-            touch tmp/restart.txt
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER || 'mihretmultimedia.com' }}
+          username: ${{ secrets.FTP_USERNAME || 'mihretba' }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ./public_html/
+          local-dir: ./dist/
+          dangerous-clean-slate: false
