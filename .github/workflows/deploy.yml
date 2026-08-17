@@ -22,7 +22,7 @@ jobs:
           host: ${{ secrets.SSH_HOST || vars.SSH_HOST || 'mihretmultimedia.com' }}
           username: ${{ secrets.SSH_USERNAME || vars.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || vars.SSH_PORT || 22 }}
+          port: 2222
           script: |
             # Navigate to domain directory on Yegara server
             cd /home/${{ secrets.SSH_USERNAME || vars.SSH_USERNAME }}/mihretmultimedia.com
