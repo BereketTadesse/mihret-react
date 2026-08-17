@@ -1,0 +1,34 @@
+name: Deploy to DirectAdmin
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute Remote SSH Commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            # Navigate to domain directory on Yegara server
+            cd /home/${{ secrets.SSH_USERNAME }}/mihretmultimedia.com
+            
+            # Pull latest changes from main branch
+            git pull origin main
+            
+            # Install dependencies (Vite & TypeScript are needed to build)
+            npm ci
+            
+            # Build application (React / Vite / TypeScript)
+            npm run build --if-present
+            
+            # Restart application process / reload Phusion Passenger
+            mkdir -p tmp
+            touch tmp/restart.txt

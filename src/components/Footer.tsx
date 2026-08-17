@@ -23,7 +23,7 @@ export default function Footer() {
               },
               { 
                 name: 'TikTok', 
-                link: 'https://www.tiktok.com/@mihret_pictures3?_r=1&_t=ZS-93JcMQEedRC',
+                link: 'https://www.tiktok.com/@mihret.multimedia?_r=1&_d=e8e7k73lmed6k1&sec_uid=MS4wLjABAAAA2jzujn9BCHmNnqe4F3e5CAsgotrVSohJuB4zg9_CGvJBG_i9td2YKDiLoPvE9kBe&share_author_id=7665593799293256712&sharer_language=en&source=h5_m&u_code=f4i5hjgfi7a0e2&timestamp=1786018510&user_id=7665593799293256712&sec_user_id=MS4wLjABAAAA2jzujn9BCHmNnqe4F3e5CAsgotrVSohJuB4zg9_CGvJBG_i9td2YKDiLoPvE9kBe&item_author_type=1&utm_source=copy&utm_campaign=client_share&utm_medium=android&share_iid=7667912349957916424&share_link_id=6fda1d0d-b61d-4630-829c-cf610b534481&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1',
                 path: "M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.6-4.12-1.31a6.34 6.34 0 0 1-1.84-1.47v6.78c-.04 2.13-.78 4.29-2.22 5.87-1.43 1.58-3.52 2.46-5.63 2.47-2.12.01-4.23-.84-5.69-2.39C1.48 18.39.63 16.32.62 14.22c-.01-2.13.84-4.25 2.39-5.71 1.55-1.46 3.65-2.32 5.76-2.32.32 0 .64.01.96.04v3.91a4.34 4.34 0 0 0-4.32 4.08c-.01 1.25.5 2.49 1.4 3.35.89.86 2.14 1.34 3.39 1.33 1.25-.01 2.46-.5 3.32-1.41.86-.91 1.3-2.17 1.26-3.41V.02Z"
               },
               { 

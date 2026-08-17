@@ -105,7 +105,7 @@ export default function Home() {
     { name: 'TDS Multimedia', logo: '/logo/TDS Multimedia.png' },
     { name: 'Tsedey Radio', logo: '/logo/Tsedey Radio.png' },
   ];
-  const YOUTUBE_ID = '164sB-7WE4w';
+  const YOUTUBE_ID = 'Kca5W0qLxxU';
 
   return (
     <>
